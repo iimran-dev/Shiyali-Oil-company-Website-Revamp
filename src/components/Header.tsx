@@ -172,24 +172,6 @@ export default function Header() {
                 </div>
               ))}
 
-              <a
-                href="#about"
-                className={cn(
-                  'px-4 py-2 text-sm font-medium rounded-lg transition-colors duration-300',
-                  navTextColor
-                )}
-              >
-                About
-              </a>
-              <a
-                href="#contact"
-                className={cn(
-                  'px-4 py-2 text-sm font-medium rounded-lg transition-colors duration-300',
-                  navTextColor
-                )}
-              >
-                Contact
-              </a>
             </nav>
 
             {/* CTA + Mobile Toggle */}
@@ -261,20 +243,6 @@ export default function Header() {
                         </div>
                       ))}
 
-                      <a
-                        href="#about"
-                        className="flex items-center px-6 py-4 text-base font-semibold text-shiyali-primary hover:bg-shiyali-light-bg transition-colors border-b border-gray-50"
-                        onClick={() => setMobileOpen(false)}
-                      >
-                        About
-                      </a>
-                      <a
-                        href="#contact"
-                        className="flex items-center px-6 py-4 text-base font-semibold text-shiyali-primary hover:bg-shiyali-light-bg transition-colors border-b border-gray-50"
-                        onClick={() => setMobileOpen(false)}
-                      >
-                        Contact
-                      </a>
                     </div>
 
                     {/* Mobile CTA */}

@@ -221,9 +221,7 @@ export default function HeroSection() {
             transition={{ duration: 0.8, delay: 1.4 }}
             className="text-lg sm:text-xl text-white/70 max-w-2xl mx-auto mb-10 leading-relaxed"
           >
-            India&rsquo;s trusted recruitment partner for the GCC &mdash; delivering skilled
-            professionals across Oil &amp; Gas, EPC, Infrastructure and more for over
-            20 years.
+            Specialized recruitment solutions for GCC, EPC, Oil &amp; Gas, Infrastructure, Manufacturing and Healthcare sectors.
           </motion.p>
 
           {/* CTA Buttons */}
