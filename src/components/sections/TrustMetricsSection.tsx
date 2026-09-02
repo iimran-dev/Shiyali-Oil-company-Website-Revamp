@@ -1,87 +1,68 @@
 'use client';
 
-import { motion, useInView } from 'framer-motion';
-import { useRef } from 'react';
-import { Award, Users, Globe, Zap, Building2 } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { Award, Users, UserCheck, Globe, Building2, ThumbsUp, type LucideIcon } from 'lucide-react';
 import { useCounter } from '@/hooks/use-counter';
 import { TRUST_METRICS } from '@/lib/constants';
-import { cn } from '@/lib/utils';
 
-const metricIcons = [Award, Users, Zap, Globe, Building2];
+const metricIcons: LucideIcon[] = [Award, Users, UserCheck, Globe, Building2, ThumbsUp];
 
-const floatKeyframes = [
-  { y: [0, -6, 0], transition: { duration: 4, repeat: Infinity, delay: 0, ease: 'easeInOut' } },
-  { y: [0, -8, 0], transition: { duration: 4.5, repeat: Infinity, delay: 0.3, ease: 'easeInOut' } },
-  { y: [0, -5, 0], transition: { duration: 3.8, repeat: Infinity, delay: 0.6, ease: 'easeInOut' } },
-  { y: [0, -7, 0], transition: { duration: 4.2, repeat: Infinity, delay: 0.9, ease: 'easeInOut' } },
-  { y: [0, -6, 0], transition: { duration: 4, repeat: Infinity, delay: 1.2, ease: 'easeInOut' } },
-];
+interface MetricItemProps {
+  metric: typeof TRUST_METRICS[number];
+  index: number;
+  isLast: boolean;
+}
 
-function MetricCard({ metric, index }: { metric: typeof TRUST_METRICS[number]; index: number }) {
-  const [counterRef, count] = useCounter(metric.value, 2200);
-  const Icon = metricIcons[index];
+function MetricItem({ metric, index, isLast }: MetricItemProps) {
+  const [counterRef, count] = useCounter(metric.value, 2000);
+  const Icon = metricIcons[index] || Award;
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 40 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.3 }}
-      transition={{ duration: 0.6, delay: index * 0.12, ease: 'easeOut' }}
-      whileHover={{ y: -8, scale: 1.03 }}
-      animate={floatKeyframes[index]}
-      className={cn(
-        'glass-light rounded-2xl p-6 sm:p-8 text-center cursor-default',
-        'shadow-lg shadow-shiyali-primary/5 hover:shadow-xl hover:shadow-shiyali-primary/10',
-        'transition-shadow duration-300'
-      )}
+    <div
+      className={`flex items-start gap-3 sm:gap-4 p-2 sm:p-3 ${
+        !isLast ? 'lg:border-r lg:border-slate-100' : ''
+      }`}
     >
-      <div className="flex justify-center mb-4">
-        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-shiyali-secondary/10 text-shiyali-secondary">
-          <Icon className="h-6 w-6" />
+      {/* Soft Blue Line Icon Container */}
+      <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-sky-50 border border-sky-100 flex items-center justify-center text-[#0E2A47] shrink-0">
+        <Icon className="w-5 h-5 sm:w-6 sm:h-6 text-[#0E2A47]" strokeWidth={1.8} />
+      </div>
+
+      {/* Number & Label */}
+      <div className="flex flex-col">
+        <div className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-[#061C33] tracking-tight leading-none mb-1">
+          <span ref={counterRef}>{count.toLocaleString()}</span>
+          <span>{metric.suffix}</span>
+        </div>
+        <div className="text-xs sm:text-sm font-medium text-slate-500 max-w-[130px] leading-tight">
+          {metric.label}
         </div>
       </div>
-      <div className="text-3xl sm:text-4xl font-bold text-shiyali-primary mb-2">
-        <span ref={counterRef}>{count.toLocaleString()}</span>
-        <span className="text-shiyali-accent">{metric.suffix}</span>
-      </div>
-      <div className="text-sm font-medium text-gray-500 uppercase tracking-wider">
-        {metric.label}
-      </div>
-    </motion.div>
+    </div>
   );
 }
 
 export default function TrustMetricsSection() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(containerRef, { once: true, amount: 0.15 });
-
   return (
-    <section className="relative py-16 sm:py-20 bg-white">
-      <div ref={containerRef} className="section-container section-padding">
-        {/* Row 1: 3 cards */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.8 }}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 max-w-4xl mx-auto mb-5"
-        >
-          {TRUST_METRICS.slice(0, 3).map((metric, index) => (
-            <MetricCard key={metric.label} metric={metric} index={index} />
+    <section className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-12 sm:-mt-16 md:-mt-20 mb-16">
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.7, ease: 'easeOut' }}
+        className="bg-white rounded-2xl sm:rounded-3xl shadow-xl shadow-slate-200/70 border border-slate-100 p-5 sm:p-7 md:p-8"
+      >
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6 sm:gap-4 items-center">
+          {TRUST_METRICS.map((metric, index) => (
+            <MetricItem
+              key={metric.label}
+              metric={metric}
+              index={index}
+              isLast={index === TRUST_METRICS.length - 1}
+            />
           ))}
-        </motion.div>
-
-        {/* Row 2: 2 cards centered */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.8, delay: 0.3 }}
-          className="grid grid-cols-1 sm:grid-cols-2 gap-5 max-w-[27rem] mx-auto"
-        >
-          {TRUST_METRICS.slice(3).map((metric, index) => (
-            <MetricCard key={metric.label} metric={metric} index={index + 3} />
-          ))}
-        </motion.div>
-      </div>
+        </div>
+      </motion.div>
     </section>
   );
 }

@@ -26,11 +26,12 @@ export const NAV_JOBS = [
 ];
 
 export const TRUST_METRICS = [
-  { value: 20, suffix: '+', label: 'Years Experience' },
-  { value: 500, suffix: '+', label: 'Clients' },
-  { value: 10000, suffix: '+', label: 'Placements' },
-  { value: 6, suffix: '+', label: 'Countries Served' },
-  { value: 50, suffix: '+', label: 'Industries' },
+  { value: 20, suffix: '+', label: 'Years of Experience', icon: 'award' },
+  { value: 500, suffix: '+', label: 'Global Clients', icon: 'users' },
+  { value: 10000, suffix: '+', label: 'Successful Placements', icon: 'user-check' },
+  { value: 6, suffix: '+', label: 'Countries We Serve', icon: 'globe' },
+  { value: 50, suffix: '+', label: 'Industries We Hire For', icon: 'building' },
+  { value: 100, suffix: '%', label: 'Client Satisfaction', icon: 'thumbs-up' },
 ];
 
 export const INDUSTRIES_DATA = [
@@ -38,47 +39,83 @@ export const INDUSTRIES_DATA = [
     title: 'Oil & Gas',
     slug: 'oil-gas',
     description: 'Recruiting top engineering and technical professionals for upstream, midstream and downstream operations across the GCC.',
-    icon: 'fuel',
+    icon: 'droplets',
+    image: '/industries/oil-gas.jpg',
+    unsplashUrl: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=800&q=80',
   },
   {
     title: 'EPC Projects',
     slug: 'epc-projects',
     description: 'End-to-end staffing solutions for engineering, procurement and construction mega-projects.',
-    icon: 'hard-hat',
+    icon: 'file-text',
+    image: '/industries/epc-projects.jpg',
+    unsplashUrl: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=800&q=80',
   },
   {
     title: 'Infrastructure',
     slug: 'infrastructure',
     description: 'Skilled workforce for roads, bridges, airports, ports and urban infrastructure development.',
-    icon: 'building-2',
-  },
-  {
-    title: 'Construction',
-    slug: 'construction',
-    description: 'Qualified construction professionals from project managers to site engineers and skilled trades.',
-    icon: 'crane',
+    icon: 'landmark',
+    image: '/industries/infrastructure.jpg',
+    unsplashUrl: 'https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=800&q=80',
   },
   {
     title: 'Manufacturing',
     slug: 'manufacturing',
     description: 'Manufacturing talent across automotive, FMCG, pharmaceuticals and industrial sectors.',
     icon: 'factory',
+    image: '/industries/manufacturing.jpg',
+    unsplashUrl: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80',
   },
   {
-    title: 'Healthcare',
+    title: 'Healthcare & Hospitality',
     slug: 'healthcare',
-    description: 'Doctors, nurses, technicians and healthcare administrators for hospitals and medical facilities.',
+    description: 'Doctors, nurses, technicians and hospitality staff for premier facilities.',
     icon: 'heart-pulse',
+    image: '/industries/healthcare.jpg',
+    unsplashUrl: 'https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=800&q=80',
+  },
+  {
+    title: 'Other Sectors',
+    slug: 'other-sectors',
+    description: 'Specialized manpower for logistics, marine, facility management and emerging industries.',
+    icon: 'layers',
+    image: '/industries/other-sectors.jpg',
+    unsplashUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80',
   },
 ];
 
 export const WHY_SHIYALI_FEATURES = [
-  { title: 'Licensed Overseas Recruiter', description: 'Government-approved with full regulatory compliance for international recruitment.' },
-  { title: 'GCC Specialists', description: 'Deep expertise in GCC labor laws, visa processing and market dynamics.' },
-  { title: 'Large Talent Pool', description: 'Access to a pre-vetted database of skilled professionals across 50+ industries.' },
-  { title: 'Fast Hiring', description: 'Rapid mobilization with structured processes delivering candidates in record time.' },
-  { title: 'End-to-End Recruitment', description: 'Complete recruitment lifecycle from sourcing and screening to mobilization.' },
-  { title: 'Compliance Driven', description: 'Fully compliant with international labor standards and government regulations.' },
+  {
+    title: 'Government Licensed',
+    description: 'Approved by Ministry of External Affairs, Govt. of India',
+    icon: 'shield-check',
+  },
+  {
+    title: 'End-to-End Support',
+    description: 'From requirement to deployment & beyond',
+    icon: 'clock',
+  },
+  {
+    title: 'Wide Talent Pool',
+    description: 'White & Blue Collar Professionals',
+    icon: 'users',
+  },
+  {
+    title: 'Quality Assurance',
+    description: 'Rigorous screening & selection process',
+    icon: 'target',
+  },
+  {
+    title: 'Faster Turnaround',
+    description: 'Timely delivery with best industry practices',
+    icon: 'zap',
+  },
+  {
+    title: 'Ethical & Transparent',
+    description: 'Committed to compliance & client satisfaction',
+    icon: 'handshake',
+  },
 ];
 
 export const PROCESS_STAGES = [

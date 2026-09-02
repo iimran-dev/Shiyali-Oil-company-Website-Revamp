@@ -1,41 +1,56 @@
 'use client';
 
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useCallback, useRef } from 'react';
 import { motion, AnimatePresence, useInView } from 'framer-motion';
-import { Quote, ChevronLeft, ChevronRight } from 'lucide-react';
-import { TESTIMONIALS } from '@/lib/constants';
+import { Quote, ChevronLeft, ChevronRight, CheckCircle2, Award, MessageSquareQuote } from 'lucide-react';
+import { TESTIMONIALS, SUCCESS_STORIES } from '@/lib/constants';
 import { cn } from '@/lib/utils';
-import { useScrollAnimation } from '@/hooks/use-scroll-animation';
+import { useCounter } from '@/hooks/use-counter';
+
+function MetricCounter({ metric }: { metric: string }) {
+  const numericPart = parseInt(metric.replace(/[^0-9]/g, ''), 10);
+  const hasPlus = metric.includes('+');
+  const [ref, count] = useCounter(numericPart, 1800, true);
+
+  return (
+    <span ref={ref}>
+      {count.toLocaleString()}
+      {hasPlus ? '+' : ''}
+    </span>
+  );
+}
 
 export default function TestimonialsSection() {
-  const [current, setCurrent] = useState(0);
-  const [direction, setDirection] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
-  const [sectionRef, isVisible] = useScrollAnimation();
-  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const total = TESTIMONIALS.length;
+  // Testimonials Carousel State
+  const [testiIdx, setTestiIdx] = useState(0);
+  const [testiDir, setTestiDir] = useState(0);
 
-  const goTo = useCallback(
-    (index: number, dir: number) => {
-      setDirection(dir);
-      setCurrent((index + total) % total);
-    },
-    [total]
-  );
+  // Success Stories Carousel State
+  const [storyIdx, setStoryIdx] = useState(0);
+  const [storyDir, setStoryDir] = useState(0);
 
-  const next = useCallback(() => goTo(current + 1, 1), [current, goTo]);
-  const prev = useCallback(() => goTo(current - 1, -1), [current, goTo]);
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(sectionRef, { once: true, margin: '-50px' });
 
-  useEffect(() => {
-    if (isPaused) return;
-    intervalRef.current = setInterval(() => {
-      setDirection(1);
-      setCurrent((prev) => (prev + 1) % total);
-    }, 6000);
-    return () => {
-      if (intervalRef.current) clearInterval(intervalRef.current);
-    };
-  }, [isPaused, total]);
+  // Testimonials navigation
+  const nextTesti = useCallback(() => {
+    setTestiDir(1);
+    setTestiIdx((prev) => (prev + 1) % TESTIMONIALS.length);
+  }, []);
+  const prevTesti = useCallback(() => {
+    setTestiDir(-1);
+    setTestiIdx((prev) => (prev - 1 + TESTIMONIALS.length) % TESTIMONIALS.length);
+  }, []);
+
+  // Success Stories navigation
+  const nextStory = useCallback(() => {
+    setStoryDir(1);
+    setStoryIdx((prev) => (prev + 1) % SUCCESS_STORIES.length);
+  }, []);
+  const prevStory = useCallback(() => {
+    setStoryDir(-1);
+    setStoryIdx((prev) => (prev - 1 + SUCCESS_STORIES.length) % SUCCESS_STORIES.length);
+  }, []);
 
   const getInitials = (name: string) => {
     return name
@@ -46,113 +61,232 @@ export default function TestimonialsSection() {
       .slice(0, 2);
   };
 
-  const slideVariants = {
-    enter: (dir: number) => ({
-      x: dir > 0 ? 200 : -200,
-      opacity: 0,
-    }),
-    center: {
-      x: 0,
-      opacity: 1,
-    },
-    exit: (dir: number) => ({
-      x: dir > 0 ? -200 : 200,
-      opacity: 0,
-    }),
-  };
+  const currentTestimonial = TESTIMONIALS[testiIdx];
+  const currentStory = SUCCESS_STORIES[storyIdx];
 
   return (
-    <section ref={sectionRef} className="bg-white section-padding py-20 lg:py-28">
-      <div className="section-container">
+    <section ref={sectionRef} id="testimonials" className="py-20 lg:py-28 bg-[#F8FAFC] relative overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        {/* Section Header */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={isVisible ? { opacity: 1, y: 0 } : {}}
+          initial={{ opacity: 0, y: 25 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="text-center mb-14"
+          className="text-center max-w-2xl mx-auto mb-14"
         >
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-shiyali-primary mb-4">
-            What Our Clients Say
+          <span className="text-[#FF5722] font-bold text-xs sm:text-sm tracking-widest uppercase mb-3 block">
+            Client Trust &amp; Impact
+          </span>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-[#061C33] tracking-tight mb-4">
+            Testimonials &amp; Success Stories
           </h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Trusted partnerships delivering measurable results.
+          <p className="text-slate-600 font-medium text-base lg:text-lg">
+            Discover why leading enterprise clients across the GCC trust Shiyali.
           </p>
         </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={isVisible ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="relative max-w-4xl mx-auto"
-          onMouseEnter={() => setIsPaused(true)}
-          onMouseLeave={() => setIsPaused(false)}
-        >
-          <div className="relative overflow-hidden min-h-[320px] md:min-h-[280px] flex items-center justify-center">
-            <AnimatePresence initial={false} custom={direction} mode="wait">
-              <motion.div
-                key={current}
-                custom={direction}
-                variants={slideVariants}
-                initial="enter"
-                animate="center"
-                exit="exit"
-                transition={{ duration: 0.45, ease: [0.25, 0.46, 0.45, 0.94] }}
-                className="absolute inset-0 flex flex-col items-center justify-center text-center px-4"
-              >
-                <Quote className="w-16 h-16 md:w-20 md:h-20 text-shiyali-accent opacity-20 mb-4" />
-                <p className="text-xl md:text-2xl font-light text-shiyali-primary leading-relaxed max-w-3xl mb-8 italic">
-                  &ldquo;{TESTIMONIALS[current].quote}&rdquo;
-                </p>
-                <div className="flex items-center gap-4">
-                  <div className="w-14 h-14 rounded-full bg-shiyali-secondary text-white flex items-center justify-center text-lg font-semibold">
-                    {getInitials(TESTIMONIALS[current].name)}
+        {/* Side-by-Side Grid Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10 items-stretch">
+          
+          {/* Left Column: Client Testimonials */}
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="bg-white rounded-3xl border border-slate-200/90 p-6 sm:p-8 md:p-10 shadow-sm flex flex-col justify-between"
+          >
+            <div>
+              {/* Card Header */}
+              <div className="flex items-center justify-between border-b border-slate-100 pb-4 mb-6">
+                <div className="flex items-center gap-2">
+                  <div className="w-9 h-9 rounded-xl bg-orange-50 border border-orange-100 flex items-center justify-center text-[#FF5722]">
+                    <MessageSquareQuote className="w-5 h-5" />
                   </div>
-                  <div className="text-left">
-                    <p className="font-semibold text-shiyali-primary">
-                      {TESTIMONIALS[current].name}
-                    </p>
-                    <p className="text-sm text-muted-foreground">
-                      {TESTIMONIALS[current].title}
-                    </p>
-                    <p className="text-sm text-muted-foreground">
-                      {TESTIMONIALS[current].company}
-                    </p>
-                  </div>
+                  <h3 className="text-lg font-extrabold text-[#061C33]">Client Reviews</h3>
                 </div>
-              </motion.div>
-            </AnimatePresence>
-          </div>
+                <span className="text-xs font-semibold text-slate-400">
+                  {testiIdx + 1} of {TESTIMONIALS.length}
+                </span>
+              </div>
 
-          <button
-            onClick={prev}
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-2 md:-translate-x-6 w-10 h-10 md:w-12 md:h-12 rounded-full border border-shiyali-primary/20 bg-white shadow-lg flex items-center justify-center text-shiyali-primary hover:bg-shiyali-primary hover:text-white transition-colors"
-            aria-label="Previous testimonial"
-          >
-            <ChevronLeft className="w-5 h-5" />
-          </button>
-          <button
-            onClick={next}
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-2 md:translate-x-6 w-10 h-10 md:w-12 md:h-12 rounded-full border border-shiyali-primary/20 bg-white shadow-lg flex items-center justify-center text-shiyali-primary hover:bg-shiyali-primary hover:text-white transition-colors"
-            aria-label="Next testimonial"
-          >
-            <ChevronRight className="w-5 h-5" />
-          </button>
+              {/* Quote Content */}
+              <div className="relative min-h-[160px] sm:min-h-[180px] flex items-center">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={testiIdx}
+                    initial={{ opacity: 0, x: testiDir * 30 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -testiDir * 30 }}
+                    transition={{ duration: 0.35 }}
+                    className="w-full"
+                  >
+                    <Quote className="w-8 h-8 text-orange-400/30 mb-3" />
+                    <p className="text-base sm:text-lg italic font-medium text-[#061C33] leading-relaxed mb-6">
+                      &ldquo;{currentTestimonial.quote}&rdquo;
+                    </p>
 
-          <div className="flex items-center justify-center gap-2 mt-8">
-            {TESTIMONIALS.map((_, i) => (
-              <button
-                key={i}
-                onClick={() => goTo(i, i > current ? 1 : -1)}
-                className={cn(
-                  'w-2.5 h-2.5 rounded-full transition-all duration-300',
-                  i === current
-                    ? 'bg-shiyali-accent w-8'
-                    : 'bg-shiyali-primary/20 hover:bg-shiyali-primary/40'
-                )}
-                aria-label={`Go to testimonial ${i + 1}`}
-              />
-            ))}
-          </div>
-        </motion.div>
+                    {/* Author Details */}
+                    <div className="flex items-center gap-3.5 pt-4 border-t border-slate-100">
+                      <div className="w-12 h-12 rounded-full bg-[#061C33] text-white flex items-center justify-center font-bold text-sm shrink-0 border border-slate-200">
+                        {getInitials(currentTestimonial.name)}
+                      </div>
+                      <div>
+                        <h4 className="font-bold text-[#061C33] text-sm sm:text-base leading-snug">
+                          {currentTestimonial.name}
+                        </h4>
+                        <p className="text-xs sm:text-sm text-slate-500 font-medium">
+                          {currentTestimonial.title} • <span className="text-[#FF5722]">{currentTestimonial.company}</span>
+                        </p>
+                      </div>
+                    </div>
+                  </motion.div>
+                </AnimatePresence>
+              </div>
+            </div>
+
+            {/* Navigation Bar */}
+            <div className="flex items-center justify-between pt-6 mt-6 border-t border-slate-100">
+              <div className="flex items-center gap-1.5">
+                {TESTIMONIALS.map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => {
+                      setTestiDir(i > testiIdx ? 1 : -1);
+                      setTestiIdx(i);
+                    }}
+                    className={cn(
+                      'h-2 rounded-full transition-all duration-300',
+                      i === testiIdx
+                        ? 'bg-[#FF5722] w-6'
+                        : 'bg-slate-200 w-2 hover:bg-slate-300'
+                    )}
+                    aria-label={`Go to testimonial ${i + 1}`}
+                  />
+                ))}
+              </div>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={prevTesti}
+                  className="w-9 h-9 rounded-full border border-slate-200 bg-white hover:bg-slate-50 text-[#061C33] flex items-center justify-center shadow-xs transition-colors"
+                  aria-label="Previous testimonial"
+                >
+                  <ChevronLeft className="w-4 h-4" />
+                </button>
+                <button
+                  onClick={nextTesti}
+                  className="w-9 h-9 rounded-full border border-slate-200 bg-white hover:bg-slate-50 text-[#061C33] flex items-center justify-center shadow-xs transition-colors"
+                  aria-label="Next testimonial"
+                >
+                  <ChevronRight className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Right Column: Proven Success Stories */}
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="bg-white rounded-3xl border border-slate-200/90 p-6 sm:p-8 md:p-10 shadow-sm flex flex-col justify-between"
+          >
+            <div>
+              {/* Card Header */}
+              <div className="flex items-center justify-between border-b border-slate-100 pb-4 mb-6">
+                <div className="flex items-center gap-2">
+                  <div className="w-9 h-9 rounded-xl bg-sky-50 border border-sky-100 flex items-center justify-center text-sky-600">
+                    <Award className="w-5 h-5 text-sky-600" />
+                  </div>
+                  <h3 className="text-lg font-extrabold text-[#061C33]">Proven Outcomes</h3>
+                </div>
+                <span className="text-xs font-semibold text-slate-400">
+                  {storyIdx + 1} of {SUCCESS_STORIES.length}
+                </span>
+              </div>
+
+              {/* Story Content */}
+              <div className="relative min-h-[160px] sm:min-h-[180px]">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={storyIdx}
+                    initial={{ opacity: 0, x: storyDir * 30 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -storyDir * 30 }}
+                    transition={{ duration: 0.35 }}
+                    className="w-full"
+                  >
+                    {/* Metric Highlight */}
+                    <div className="flex items-baseline gap-3 mb-2">
+                      <span className="text-4xl sm:text-5xl font-extrabold text-[#FF5722]">
+                        <MetricCounter metric={currentStory.metric} />
+                      </span>
+                      <span className="text-sm font-bold text-slate-500 uppercase tracking-wider">
+                        {currentStory.metricLabel}
+                      </span>
+                    </div>
+
+                    <h4 className="text-base sm:text-lg font-extrabold text-[#061C33] mb-3 leading-snug">
+                      {currentStory.title}
+                    </h4>
+
+                    {/* Solution Summary */}
+                    <p className="text-xs sm:text-sm text-slate-600 font-medium mb-4 leading-relaxed line-clamp-2">
+                      {currentStory.solution}
+                    </p>
+
+                    {/* Key Results Checklist */}
+                    <div className="space-y-1.5 pt-3 border-t border-slate-100">
+                      {currentStory.results.slice(0, 3).map((res, i) => (
+                        <div key={i} className="flex items-center gap-2 text-xs sm:text-sm text-slate-700 font-medium">
+                          <CheckCircle2 className="w-4 h-4 text-[#FF5722] shrink-0 stroke-[2.5]" />
+                          <span>{res}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </motion.div>
+                </AnimatePresence>
+              </div>
+            </div>
+
+            {/* Navigation Bar */}
+            <div className="flex items-center justify-between pt-6 mt-6 border-t border-slate-100">
+              <div className="flex items-center gap-1.5">
+                {SUCCESS_STORIES.map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => {
+                      setStoryDir(i > storyIdx ? 1 : -1);
+                      setStoryIdx(i);
+                    }}
+                    className={cn(
+                      'h-2 rounded-full transition-all duration-300',
+                      i === storyIdx
+                        ? 'bg-[#FF5722] w-6'
+                        : 'bg-slate-200 w-2 hover:bg-slate-300'
+                    )}
+                    aria-label={`Go to story ${i + 1}`}
+                  />
+                ))}
+              </div>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={prevStory}
+                  className="w-9 h-9 rounded-full border border-slate-200 bg-white hover:bg-slate-50 text-[#061C33] flex items-center justify-center shadow-xs transition-colors"
+                  aria-label="Previous story"
+                >
+                  <ChevronLeft className="w-4 h-4" />
+                </button>
+                <button
+                  onClick={nextStory}
+                  className="w-9 h-9 rounded-full border border-slate-200 bg-white hover:bg-slate-50 text-[#061C33] flex items-center justify-center shadow-xs transition-colors"
+                  aria-label="Next story"
+                >
+                  <ChevronRight className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+          </motion.div>
+        </div>
       </div>
     </section>
   );

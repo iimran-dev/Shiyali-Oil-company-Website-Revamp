@@ -40,10 +40,10 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>;
 
 const trustSignals = [
-  { icon: Shield, label: 'Government Approved' },
-  { icon: Award, label: '20+ Years Experience' },
-  { icon: Users, label: '10,000+ Successful Placements' },
-  { icon: Clock, label: 'Average Response Time: 4 Hours' },
+  { icon: Shield, label: 'Government Approved Recruitment Agency' },
+  { icon: Award, label: '20+ Years Proven Industry Experience' },
+  { icon: Users, label: '10,000+ Successful Candidate Placements' },
+  { icon: Clock, label: '4-Hour Initial Response Guarantee' },
 ];
 
 export default function RequirementFormSection() {
@@ -93,70 +93,82 @@ export default function RequirementFormSection() {
   };
 
   return (
-    <section ref={sectionRef} className="bg-white section-padding py-20 lg:py-28">
-      <div className="section-container">
+    <section ref={sectionRef} id="requirement" className="bg-[#F8FAFC] py-20 lg:py-28 relative overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        {/* Section Header */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 25 }}
           animate={isVisible ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="text-center mb-14"
+          className="text-center max-w-2xl mx-auto mb-14"
         >
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-shiyali-primary mb-4">
+          <span className="text-[#FF5722] font-bold text-xs sm:text-sm tracking-widest uppercase mb-3 block">
+            Employer Inquiry
+          </span>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-[#061C33] tracking-tight mb-4">
             Submit Your Hiring Requirement
           </h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Our recruitment experts will respond within 24 hours.
+          <p className="text-slate-600 font-medium text-base lg:text-lg">
+            Our recruitment experts will evaluate your needs and respond within 4 hours.
           </p>
         </motion.div>
 
+        {/* Main Grid */}
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
+          initial={{ opacity: 0, y: 30 }}
           animate={isVisible ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-5 gap-10 lg:gap-14"
+          className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12 items-start"
         >
-          <div className="lg:col-span-3">
+          {/* Left Column: Form Card */}
+          <div className="lg:col-span-3 bg-white rounded-3xl border border-slate-200/90 p-6 sm:p-8 md:p-10 shadow-sm">
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
               <div>
-                <label className="block text-sm font-medium text-shiyali-primary mb-1.5">
-                  Name
+                <label className="block text-sm font-bold text-[#061C33] mb-1.5">
+                  Full Name
                 </label>
                 <Input
-                  placeholder="Your full name"
+                  placeholder="e.g. John Smith"
                   {...register('name')}
-                  className={errors.name ? 'border-red-500' : ''}
+                  className={cn(
+                    'h-11 bg-white border-slate-200 text-[#061C33] placeholder:text-slate-400 focus-visible:ring-[#FF5722]/30 focus-visible:border-[#FF5722]',
+                    errors.name && 'border-red-500'
+                  )}
                 />
                 {errors.name && (
-                  <p className="text-red-500 text-xs mt-1">{errors.name.message}</p>
+                  <p className="text-red-500 text-xs font-semibold mt-1">{errors.name.message}</p>
                 )}
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-shiyali-primary mb-1.5">
-                  Company
+                <label className="block text-sm font-bold text-[#061C33] mb-1.5">
+                  Company / Organization
                 </label>
                 <Input
-                  placeholder="Company name"
+                  placeholder="e.g. Aramco Solutions Ltd."
                   {...register('company')}
-                  className={errors.company ? 'border-red-500' : ''}
+                  className={cn(
+                    'h-11 bg-white border-slate-200 text-[#061C33] placeholder:text-slate-400 focus-visible:ring-[#FF5722]/30 focus-visible:border-[#FF5722]',
+                    errors.company && 'border-red-500'
+                  )}
                 />
                 {errors.company && (
-                  <p className="text-red-500 text-xs mt-1">{errors.company.message}</p>
+                  <p className="text-red-500 text-xs font-semibold mt-1">{errors.company.message}</p>
                 )}
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-shiyali-primary mb-1.5">
-                  Country
+                <label className="block text-sm font-bold text-[#061C33] mb-1.5">
+                  Target Hiring Country
                 </label>
                 <Select onValueChange={(val) => setValue('country', val, { shouldValidate: true })}>
                   <SelectTrigger
                     className={cn(
-                      'w-full',
+                      'h-11 w-full bg-white border-slate-200 text-[#061C33] focus-visible:ring-[#FF5722]/30 focus-visible:border-[#FF5722]',
                       errors.country && 'border-red-500'
                     )}
                   >
-                    <SelectValue placeholder="Select country" />
+                    <SelectValue placeholder="Select country location" />
                   </SelectTrigger>
                   <SelectContent>
                     {countries.map((c) => (
@@ -167,71 +179,73 @@ export default function RequirementFormSection() {
                   </SelectContent>
                 </Select>
                 {errors.country && (
-                  <p className="text-red-500 text-xs mt-1">{errors.country.message}</p>
+                  <p className="text-red-500 text-xs font-semibold mt-1">{errors.country.message}</p>
                 )}
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-shiyali-primary mb-1.5">
-                  Hiring Requirement
+                <label className="block text-sm font-bold text-[#061C33] mb-1.5">
+                  Detailed Hiring Requirement
                 </label>
                 <Textarea
-                  placeholder="Describe your hiring needs..."
-                  rows={5}
+                  placeholder="Specify job roles, required experience, team sizes, and project timeline..."
+                  rows={4}
                   {...register('requirement')}
-                  className={errors.requirement ? 'border-red-500' : ''}
+                  className={cn(
+                    'bg-white border-slate-200 text-[#061C33] placeholder:text-slate-400 focus-visible:ring-[#FF5722]/30 focus-visible:border-[#FF5722]',
+                    errors.requirement && 'border-red-500'
+                  )}
                 />
                 {errors.requirement && (
-                  <p className="text-red-500 text-xs mt-1">{errors.requirement.message}</p>
+                  <p className="text-red-500 text-xs font-semibold mt-1">{errors.requirement.message}</p>
                 )}
               </div>
 
               <Button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-shiyali-accent hover:bg-shiyali-accent/90 text-shiyali-primary font-semibold h-12 text-base"
+                className="w-full bg-[#FF5722] hover:bg-[#E64A19] text-white font-extrabold h-12 text-base rounded-xl shadow-md shadow-orange-500/20 transition-all duration-200"
               >
                 {isSubmitting ? (
-                  'Submitting...'
+                  'Submitting Requirement...'
                 ) : (
                   <>
                     Talk to Recruitment Expert
-                    <Send className="ml-2 w-5 h-5" />
+                    <Send className="ml-2 w-4 h-4 stroke-[2.5]" />
                   </>
                 )}
               </Button>
             </form>
           </div>
 
-          <div className="lg:col-span-2 flex flex-col justify-center">
-            <div className="space-y-4">
-              {trustSignals.map((signal, i) => (
-                <motion.div
-                  key={signal.label}
-                  initial={{ opacity: 0, x: 30 }}
-                  animate={isVisible ? { opacity: 1, x: 0 } : {}}
-                  transition={{ duration: 0.5, delay: 0.3 + i * 0.1 }}
-                  className="glass-light rounded-xl p-4 flex items-center gap-4"
-                >
-                  <div className="w-12 h-12 rounded-full bg-shiyali-secondary/10 flex items-center justify-center shrink-0">
-                    <signal.icon className="w-5 h-5 text-shiyali-secondary" />
-                  </div>
-                  <p className="text-sm font-medium text-shiyali-primary">
-                    {signal.label}
-                  </p>
-                </motion.div>
-              ))}
-            </div>
+          {/* Right Column: Trust Signals */}
+          <div className="lg:col-span-2 space-y-4 pt-2">
+            {trustSignals.map((signal, i) => (
+              <motion.div
+                key={signal.label}
+                initial={{ opacity: 0, x: 25 }}
+                animate={isVisible ? { opacity: 1, x: 0 } : {}}
+                transition={{ duration: 0.5, delay: 0.3 + i * 0.1 }}
+                className="bg-white rounded-2xl border border-slate-200/90 p-4 sm:p-5 flex items-center gap-4 shadow-2xs"
+              >
+                <div className="w-11 h-11 rounded-xl bg-sky-50 border border-sky-100 flex items-center justify-center text-sky-600 shrink-0">
+                  <signal.icon className="w-5 h-5 text-sky-600 stroke-[2]" />
+                </div>
+                <p className="text-sm font-bold text-[#061C33] leading-snug">
+                  {signal.label}
+                </p>
+              </motion.div>
+            ))}
 
+            {/* Fast Response Banner */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={isVisible ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: 0.7 }}
-              className="mt-8 p-5 rounded-xl bg-shiyali-primary/5 border border-shiyali-primary/10"
+              className="p-5 rounded-2xl bg-orange-50 border border-orange-100 text-[#061C33] shadow-2xs"
             >
-              <p className="text-sm text-shiyali-primary leading-relaxed">
-                <span className="font-semibold">Fast turnaround.</span> Our dedicated team
-                starts sourcing candidates within 4 hours of receiving your requirement.
+              <p className="text-sm text-slate-700 leading-relaxed font-medium">
+                <span className="font-bold text-[#061C33]">Fast Turnaround:</span> Our dedicated account management team starts reviewing candidate databases within 4 hours of receiving your requirement.
               </p>
             </motion.div>
           </div>

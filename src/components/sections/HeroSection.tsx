@@ -1,287 +1,126 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
-import { Shield, ArrowRight, Search } from 'lucide-react';
+import { ArrowRight, ShieldCheck, CheckCircle2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
-
-const lineVariants = {
-  hidden: { opacity: 0, y: 40, filter: 'blur(8px)' },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    filter: 'blur(0px)',
-    transition: {
-      duration: 0.8,
-      delay: 0.8 + i * 0.2,
-      ease: [0.25, 0.46, 0.45, 0.94],
-    },
-  }),
-};
-
-const counterItems = [
-  { label: 'Placements This Week', baseValue: 47, icon: '👥' },
-  { label: 'New Roles Today', baseValue: 12, icon: '📋' },
-  { label: 'Countries Active', baseValue: 8, icon: '🌍' },
-];
 
 export default function HeroSection() {
-  const [counters, setCounters] = useState<number[]>(counterItems.map(() => 0));
-  const [hasStarted, setHasStarted] = useState(false);
-
-  const startCounters = useCallback(() => {
-    if (hasStarted) return;
-    setHasStarted(true);
-  }, [hasStarted]);
-
-  useEffect(() => {
-    const timer = setTimeout(startCounters, 2000);
-    return () => clearTimeout(timer);
-  }, [startCounters]);
-
-  // Animate counters to base values
-  useEffect(() => {
-    if (!hasStarted) return;
-
-    const duration = 2000;
-    const startTime = performance.now();
-    const startVals = counters.slice();
-
-    const animate = (currentTime: number) => {
-      const elapsed = currentTime - startTime;
-      const progress = Math.min(elapsed / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
-
-      setCounters(
-        counterItems.map((item, i) =>
-          Math.floor(startVals[i] + eased * (item.baseValue - startVals[i]))
-        )
-      );
-
-      if (progress < 1) {
-        requestAnimationFrame(animate);
-      }
-    };
-
-    requestAnimationFrame(animate);
-  }, [hasStarted]);
-
-  // Slow increment after reaching base values
-  useEffect(() => {
-    if (!hasStarted) return;
-    const allReached = counterItems.every(
-      (item, i) => counters[i] >= item.baseValue
-    );
-    if (!allReached) return;
-
-    const interval = setInterval(() => {
-      setCounters((prev) =>
-        prev.map((val, i) => {
-          if (i === 0) return val + (Math.random() > 0.7 ? 1 : 0); // Placements
-          if (i === 1) return val + (Math.random() > 0.9 ? 1 : 0); // Roles
-          return val; // Countries stays
-        })
-      );
-    }, 8000);
-
-    return () => clearInterval(interval);
-  }, [hasStarted, counters]);
-
-  const headingLines = ['Connecting Global Employers', 'With Skilled Talent'];
-
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Animated gradient background */}
-      <div className="absolute inset-0 bg-shiyali-dark">
-        {/* Base gradient */}
-        <div className="absolute inset-0 bg-gradient-to-br from-shiyali-dark via-shiyali-primary to-shiyali-dark" />
-
-        {/* Animated orb 1 */}
-        <motion.div
-          animate={{
-            x: [0, 100, -50, 0],
-            y: [0, -80, 40, 0],
-            scale: [1, 1.2, 0.9, 1],
+    <section className="relative min-h-[88vh] lg:min-h-[90vh] pt-28 pb-20 md:pt-36 md:pb-28 overflow-hidden bg-[#F0F5FA] flex items-center">
+      {/* Full-Bleed Landscape Unsplash Background Image Across Entire Hero */}
+      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+        <motion.img
+          initial={{ scale: 1.06, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+          src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=2400&q=80"
+          onError={(e) => {
+            (e.target as HTMLImageElement).src = '/hero-landscape.jpg';
           }}
-          transition={{ duration: 20, repeat: Infinity, ease: 'easeInOut' }}
-          className="absolute top-1/4 left-1/4 w-[600px] h-[600px] rounded-full bg-shiyali-secondary/15 blur-[120px]"
+          alt="Engineering and Construction Landscape Background"
+          className="w-full h-full object-cover object-center filter contrast-[1.02] brightness-[0.98]"
         />
 
-        {/* Animated orb 2 */}
-        <motion.div
-          animate={{
-            x: [0, -120, 60, 0],
-            y: [0, 60, -40, 0],
-            scale: [1, 0.8, 1.1, 1],
-          }}
-          transition={{ duration: 25, repeat: Infinity, ease: 'easeInOut' }}
-          className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] rounded-full bg-shiyali-accent/10 blur-[100px]"
-        />
-
-        {/* Animated orb 3 */}
-        <motion.div
-          animate={{
-            x: [0, 80, -30, 0],
-            y: [0, -40, 70, 0],
-          }}
-          transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full bg-shiyali-secondary/8 blur-[80px]"
-        />
-
-        {/* Subtle grid pattern overlay */}
-        <div
-          className="absolute inset-0 opacity-[0.03]"
-          style={{
-            backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
-                             linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`,
-            backgroundSize: '60px 60px',
-          }}
-        />
-
-        {/* Floating particles */}
-        {[...Array(6)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-1 h-1 rounded-full bg-white/20"
-            style={{
-              top: `${20 + i * 12}%`,
-              left: `${10 + i * 15}%`,
-            }}
-            animate={{
-              y: [0, -30, 0],
-              opacity: [0.2, 0.6, 0.2],
-            }}
-            transition={{
-              duration: 3 + i * 0.5,
-              repeat: Infinity,
-              delay: i * 0.8,
-              ease: 'easeInOut',
-            }}
-          />
-        ))}
+        {/* Full Section Left-to-Right Soft Fade Gradient (Protects Left Text Legibility while Keeping Right Landscape Vivid) */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#F0F5FA] via-[#F0F5FA]/90 via-40% sm:via-48% to-[#F0F5FA]/15 to-85% w-full" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#F0F5FA]/60 via-transparent to-[#F0F5FA]/80 w-full" />
       </div>
 
-      {/* Dark overlay gradient from bottom */}
-      <div className="absolute inset-0 bg-gradient-to-t from-shiyali-dark/80 via-transparent to-shiyali-dark/40" />
+      {/* Atmospheric Glowing Orbs */}
+      <motion.div
+        animate={{
+          x: [0, 30, -20, 0],
+          y: [0, -20, 20, 0],
+        }}
+        transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut' }}
+        className="absolute top-1/4 left-12 w-[450px] h-[450px] rounded-full bg-sky-300/15 blur-[100px] pointer-events-none z-0"
+      />
 
-      {/* Content */}
-      <div className="relative z-10 section-container section-padding pt-32 pb-20">
-        <div className="max-w-4xl mx-auto text-center">
-          {/* Government Approved Badge */}
+      {/* Main Content Container */}
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+        <div className="max-w-xl lg:max-w-2xl">
+          {/* Subtitle Badge */}
           <motion.div
-            initial={{ opacity: 0, y: 20, scale: 0.9 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full glass mb-8"
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/80 backdrop-blur-md border border-slate-200/80 shadow-sm mb-5"
           >
-            <span className="relative flex h-2.5 w-2.5">
-              <span className="pulse-dot absolute inline-flex h-full w-full rounded-full bg-shiyali-accent" />
-              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-shiyali-accent" />
-            </span>
-            <Shield className="h-4 w-4 text-shiyali-accent" />
-            <span className="text-sm font-medium text-white/90">
-              Government Approved Overseas Recruiter
+            <span className="w-2.5 h-2.5 rounded-full bg-[#FF5722] animate-pulse" />
+            <span className="text-[#0E2A47] font-semibold text-xs sm:text-sm tracking-wide uppercase">
+              Connecting Global Employers With
             </span>
           </motion.div>
 
-          {/* Headline - line by line reveal */}
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.1] tracking-tight mb-6">
-            {headingLines.map((line, i) => (
-              <motion.span
-                key={i}
-                custom={i}
-                variants={lineVariants}
-                initial="hidden"
-                animate="visible"
-                className={cn(
-                  'block',
-                  i === 0 ? 'text-white' : 'text-gradient'
-                )}
-                style={
-                  i === 1
-                    ? {
-                        background: 'linear-gradient(135deg, #F4B400 0%, #FFD666 50%, #F4B400 100%)',
-                        WebkitBackgroundClip: 'text',
-                        WebkitTextFillColor: 'transparent',
-                        backgroundClip: 'text',
-                      }
-                    : undefined
-                }
-              >
-                {line}
-              </motion.span>
-            ))}
-          </h1>
-
-          {/* Subheadline */}
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
+          {/* Main Headline */}
+          <motion.h1
+            initial={{ opacity: 0, y: 22 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 1.4 }}
-            className="text-lg sm:text-xl text-white/70 max-w-2xl mx-auto mb-10 leading-relaxed"
+            transition={{ duration: 0.6, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-[#061C33] tracking-tight leading-[1.08] mb-6 drop-shadow-sm"
           >
-            Specialized recruitment solutions for GCC, EPC, Oil &amp; Gas, Infrastructure, Manufacturing and Healthcare sectors.
+            Right Talent<span className="text-[#FF5722]">.</span>
+            <br />
+            Right Time<span className="text-[#FF5722]">.</span>
+          </motion.h1>
+
+          {/* Sub-description */}
+          <motion.p
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="text-[#334155] text-base sm:text-lg lg:text-xl max-w-xl mb-9 leading-relaxed font-normal"
+          >
+            Your trusted recruitment partner for GCC, Oil &amp; Gas, EPC, Infrastructure, Manufacturing &amp; Healthcare sectors.
           </motion.p>
 
-          {/* CTA Buttons */}
+          {/* Action Buttons */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 1.7 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16"
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="flex flex-wrap items-center gap-4 mb-10"
           >
             <Button
               size="lg"
-              className={cn(
-                'bg-shiyali-accent text-shiyali-primary font-semibold text-base px-8 py-6 rounded-xl',
-                'shadow-xl shadow-shiyali-accent/30 hover:shadow-shiyali-accent/50',
-                'hover:scale-105 transition-all duration-300 h-auto'
-              )}
+              className="group bg-[#FF5722] hover:bg-[#E64A19] text-white font-semibold text-base px-8 py-6 rounded-xl shadow-xl shadow-orange-500/25 hover:shadow-orange-500/40 hover:-translate-y-0.5 transition-all duration-300 h-auto"
             >
-              <Search className="mr-2 h-5 w-5" />
-              Hire Talent
+              <span>Hire Talent</span>
+              <ArrowRight className="ml-2.5 h-5 w-5 stroke-[2.5] group-hover:translate-x-1 transition-transform duration-300" />
             </Button>
             <Button
               size="lg"
               variant="outline"
-              className={cn(
-                'border-white/30 text-white font-semibold text-base px-8 py-6 rounded-xl',
-                'hover:bg-white/10 hover:border-white/50 hover:text-white',
-                'transition-all duration-300 h-auto'
-              )}
+              className="group border-[#90E0EF]/70 bg-white/85 backdrop-blur-md hover:bg-white text-[#061C33] font-semibold text-base px-8 py-6 rounded-xl shadow-md shadow-slate-200/60 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 h-auto"
             >
-              Explore Jobs
-              <ArrowRight className="ml-2 h-5 w-5" />
+              <span>Explore Jobs</span>
+              <ArrowRight className="ml-2.5 h-5 w-5 stroke-[2.5] text-[#FF5722] group-hover:translate-x-1 transition-transform duration-300" />
             </Button>
           </motion.div>
 
-          {/* WOW01 Recruitment Impact Counter */}
+          {/* Verification Badges */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 2.1 }}
-            className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-2xl mx-auto"
+            transition={{ duration: 0.5, delay: 0.4 }}
+            className="flex flex-wrap items-center gap-x-6 gap-y-3 text-[#061C33] font-semibold text-sm sm:text-base pt-3 border-t border-slate-200/70"
           >
-            {counterItems.map((item, i) => (
-              <div
-                key={i}
-                className="glass rounded-2xl px-6 py-5 text-center group hover:bg-white/12 transition-colors duration-300"
-              >
-                <div className="text-2xl font-bold text-white mb-1">
-                  <span>{counters[i]}</span>
-                </div>
-                <div className="text-xs text-white/50 font-medium uppercase tracking-wider">
-                  {item.label}
-                </div>
+            <div className="flex items-center gap-2">
+              <div className="w-5 h-5 rounded-full bg-orange-500/10 border border-orange-400/30 flex items-center justify-center text-[#FF5722] shrink-0">
+                <ShieldCheck className="w-3.5 h-3.5 text-[#FF5722]" strokeWidth={2.5} />
               </div>
-            ))}
+              <span>Licensed Overseas Recruiter</span>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <div className="w-5 h-5 rounded-full bg-emerald-500/10 border border-emerald-400/30 flex items-center justify-center text-emerald-600 shrink-0">
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" strokeWidth={2.5} />
+              </div>
+              <span className="text-slate-700">100% Government Approved</span>
+            </div>
           </motion.div>
         </div>
       </div>
-
-      {/* Bottom gradient fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white to-transparent" />
     </section>
   );
 }

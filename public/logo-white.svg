@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 48" width="200" height="48" fill="none">
+  <!-- Concentric Rings Emblem -->
+  <g transform="translate(24, 24)">
+    <!-- Outer Arc -->
+    <path d="M 0,-19 A 19,19 0 1,1 -14,-13" stroke="#FFFFFF" stroke-width="3.2" stroke-linecap="round" fill="none" />
+    <!-- Middle Arc -->
+    <path d="M 13,-5 A 14,14 0 1,1 -10,-10" stroke="#FFFFFF" stroke-width="3.2" stroke-linecap="round" fill="none" />
+    <!-- Inner Arc -->
+    <path d="M -7,6 A 9,9 0 1,1 6,-7" stroke="#FFFFFF" stroke-width="3.2" stroke-linecap="round" fill="none" />
+  </g>
+
+  <!-- Typography: SHIYALI -->
+  <text x="54" y="25" font-family="'Google Sans', 'Plus Jakarta Sans', 'Segoe UI', sans-serif" font-weight="800" font-size="22" fill="#FFFFFF" letter-spacing="1">SHIYALI</text>
+
+  <!-- Accent Line -->
+  <line x1="54" y1="29" x2="168" y2="29" stroke="#FF5722" stroke-width="2" stroke-linecap="round" />
+
+  <!-- Subtitle: HR SERVICES PVT. LTD. -->
+  <text x="54" y="39" font-family="'Google Sans', 'Plus Jakarta Sans', 'Segoe UI', sans-serif" font-weight="700" font-size="8.2" fill="#E2E8F0" letter-spacing="0.5">HR SERVICES PVT. LTD.</text>
+</svg>

@@ -1,162 +1,110 @@
 'use client';
 
-import { motion, useInView } from 'framer-motion';
-import { useRef } from 'react';
+import { motion } from 'framer-motion';
 import {
-  Fuel,
-  HardHat,
-  Building2,
-  Construction as Crane,
+  Droplets,
+  FileText,
+  Landmark,
   Factory,
   HeartPulse,
-  ArrowRight,
+  Layers,
+  type LucideIcon,
 } from 'lucide-react';
 import { INDUSTRIES_DATA } from '@/lib/constants';
-import { cn } from '@/lib/utils';
 
-const iconMap: Record<string, React.ElementType> = {
-  fuel: Fuel,
-  'hard-hat': HardHat,
-  'building-2': Building2,
-  crane: Crane,
+const iconMap: Record<string, LucideIcon> = {
+  droplets: Droplets,
+  'file-text': FileText,
+  landmark: Landmark,
   factory: Factory,
   'heart-pulse': HeartPulse,
+  layers: Layers,
 };
 
-const industryGradients: Record<string, string> = {
-  'oil-gas': 'from-amber-900/90 via-amber-800/70 to-transparent',
-  'epc-projects': 'from-shiyali-primary/90 via-shiyali-secondary/70 to-transparent',
-  'infrastructure': 'from-slate-900/90 via-slate-700/70 to-transparent',
-  'construction': 'from-orange-900/90 via-orange-700/70 to-transparent',
-  'manufacturing': 'from-emerald-900/90 via-emerald-700/70 to-transparent',
-  'healthcare': 'from-rose-900/90 via-rose-700/70 to-transparent',
-};
-
-const industryBgGradients: Record<string, string> = {
-  'oil-gas': 'from-amber-800 via-amber-700 to-yellow-600',
-  'epc-projects': 'from-shiyali-dark via-shiyali-primary to-shiyali-secondary',
-  'infrastructure': 'from-slate-800 via-slate-600 to-gray-500',
-  'construction': 'from-orange-800 via-orange-600 to-amber-500',
-  'manufacturing': 'from-emerald-800 via-emerald-600 to-green-500',
-  'healthcare': 'from-rose-800 via-rose-600 to-pink-500',
-};
-
-function IndustryCard({
-  industry,
-  index,
-}: {
+interface IndustryCardProps {
   industry: (typeof INDUSTRIES_DATA)[number];
   index: number;
-}) {
-  const Icon = iconMap[industry.icon] || Building2;
+}
+
+function IndustryCard({ industry, index }: IndustryCardProps) {
+  const Icon = iconMap[industry.icon] || BuildingIcon;
 
   return (
-    <motion.a
-      href={`#${industry.slug}`}
-      initial={{ opacity: 0, y: 50 }}
+    <motion.div
+      initial={{ opacity: 0, y: 25 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.2 }}
-      transition={{
-        duration: 0.6,
-        delay: index * 0.1,
-        ease: [0.25, 0.46, 0.45, 0.94],
-      }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5, delay: index * 0.08, ease: 'easeOut' }}
       whileHover={{ y: -6 }}
-      className={cn(
-        'group relative overflow-hidden rounded-2xl h-72 sm:h-80 cursor-pointer',
-        'shadow-lg hover:shadow-2xl hover:shadow-shiyali-primary/15',
-        'transition-shadow duration-500'
-      )}
+      className="group bg-white rounded-2xl border border-slate-100 shadow-md hover:shadow-xl hover:shadow-slate-200/80 transition-all duration-300 overflow-hidden flex flex-col cursor-pointer text-center"
     >
-      {/* Gradient background (replaces image) */}
-      <div
-        className={cn(
-          'absolute inset-0 bg-gradient-to-br transition-transform duration-700 group-hover:scale-110',
-          industryBgGradients[industry.slug]
-        )}
-      />
-
-      {/* Subtle pattern overlay */}
-      <div
-        className="absolute inset-0 opacity-10"
-        style={{
-          backgroundImage:
-            'radial-gradient(circle at 2px 2px, rgba(255,255,255,0.3) 1px, transparent 0)',
-          backgroundSize: '24px 24px',
-        }}
-      />
-
-      {/* Bottom gradient overlay for text readability */}
-      <div
-        className={cn(
-          'absolute inset-0 bg-gradient-to-t',
-          industryGradients[industry.slug]
-        )}
-      />
-
-      {/* Content */}
-      <div className="relative z-10 flex flex-col h-full p-6 sm:p-7">
-        <div className="mt-auto">
-          {/* Icon */}
-          <motion.div
-            className="flex h-14 w-14 items-center justify-center rounded-2xl bg-white/15 backdrop-blur-sm border border-white/20 mb-4 transition-all duration-500 group-hover:bg-shiyali-accent group-hover:border-shiyali-accent"
-          >
-            <Icon className="h-7 w-7 text-white transition-colors duration-500 group-hover:text-shiyali-primary" />
-          </motion.div>
-
-          {/* Title */}
-          <h3 className="text-xl sm:text-2xl font-bold text-white mb-2">
-            {industry.title}
-          </h3>
-
-          {/* Description */}
-          <p className="text-sm text-white/75 leading-relaxed line-clamp-3 mb-4">
-            {industry.description}
-          </p>
-
-          {/* Explore link */}
-          <div className="flex items-center gap-1.5 text-sm font-semibold text-shiyali-accent opacity-0 transform translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
-            Explore Roles
-            <ArrowRight className="h-4 w-4" />
-          </div>
-        </div>
+      {/* Top Image Portion */}
+      <div className="relative h-44 sm:h-48 w-full overflow-hidden bg-slate-100">
+        <img
+          src={industry.image}
+          onError={(e) => {
+            if (industry.unsplashUrl) {
+              (e.target as HTMLImageElement).src = industry.unsplashUrl;
+            }
+          }}
+          alt={industry.title}
+          className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+        />
       </div>
-    </motion.a>
+
+      {/* Center Overlapping Floating Icon Badge */}
+      <div className="relative z-10 -mt-7 mx-auto w-14 h-14 rounded-full bg-white shadow-lg border border-slate-100 flex items-center justify-center text-[#FF5722] group-hover:scale-110 group-hover:border-orange-200 transition-all duration-300">
+        <Icon className="w-6 h-6 stroke-[2] text-[#FF5722]" />
+      </div>
+
+      {/* Bottom Title Portion */}
+      <div className="pt-3 pb-6 px-3 flex items-center justify-center flex-1 min-h-[76px]">
+        <h3 className="text-base sm:text-lg font-bold text-[#061C33] leading-snug group-hover:text-[#FF5722] transition-colors duration-300">
+          {industry.title}
+        </h3>
+      </div>
+    </motion.div>
+  );
+}
+
+// Fallback icon definition
+function BuildingIcon(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      {...props}
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+    </svg>
   );
 }
 
 export default function IndustriesSection() {
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(sectionRef, { once: true, amount: 0.1 });
-
   return (
-    <section ref={sectionRef} className="py-20 sm:py-28 bg-white">
-      <div className="section-container section-padding">
-        {/* Section Header */}
+    <section id="industries" className="py-20 sm:py-24 bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Section Header matching reference image */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7 }}
-          className="text-center max-w-2xl mx-auto mb-14 sm:mb-16"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="text-center max-w-2xl mx-auto mb-14"
         >
-          <motion.span
-            initial={{ opacity: 0 }}
-            animate={isInView ? { opacity: 1 } : {}}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="inline-block text-sm font-semibold text-shiyali-secondary uppercase tracking-widest mb-4"
-          >
-            Expertise
-          </motion.span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-shiyali-primary mb-4">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#061C33] tracking-tight mb-2">
             Industries We Serve
           </h2>
-          <p className="text-base sm:text-lg text-gray-500 leading-relaxed">
-            Specialized recruitment expertise across critical sectors.
+          <div className="w-12 h-1 bg-[#FF5722] rounded-full mx-auto mb-4" />
+          <p className="text-slate-500 text-base sm:text-lg">
+            Specialized recruitment solutions across diverse sectors
           </p>
         </motion.div>
 
-        {/* Industry Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* 6-Card Horizontal Grid matching reference image */}
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 sm:gap-5">
           {INDUSTRIES_DATA.map((industry, index) => (
             <IndustryCard key={industry.slug} industry={industry} index={index} />
           ))}

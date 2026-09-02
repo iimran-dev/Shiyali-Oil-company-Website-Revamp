@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48" fill="none">
+  <g transform="translate(24, 24)">
+    <!-- Outer Arc -->
+    <path d="M 0,-19 A 19,19 0 1,1 -14,-13" stroke="#061C33" stroke-width="3.8" stroke-linecap="round" fill="none" />
+    <!-- Middle Arc -->
+    <path d="M 13,-5 A 14,14 0 1,1 -10,-10" stroke="#061C33" stroke-width="3.8" stroke-linecap="round" fill="none" />
+    <!-- Inner Arc -->
+    <path d="M -7,6 A 9,9 0 1,1 6,-7" stroke="#061C33" stroke-width="3.8" stroke-linecap="round" fill="none" />
+  </g>
+</svg>
