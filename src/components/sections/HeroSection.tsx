@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { ArrowRight, ShieldCheck, CheckCircle2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { withBasePath } from '@/lib/utils';
 
 export default function HeroSection() {
   return (
@@ -15,7 +16,7 @@ export default function HeroSection() {
           transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
           src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=2400&q=80"
           onError={(e) => {
-            (e.target as HTMLImageElement).src = '/hero-landscape.jpg';
+            (e.target as HTMLImageElement).src = withBasePath('/hero-landscape.jpg');
           }}
           alt="Engineering and Construction Landscape Background"
           className="w-full h-full object-cover object-center filter contrast-[1.02] brightness-[0.98]"

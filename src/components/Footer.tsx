@@ -12,6 +12,8 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { FOOTER_NAV } from '@/lib/constants';
 
+import { withBasePath } from '@/lib/utils';
+
 const socials = [
   { icon: Linkedin, href: '#', label: 'LinkedIn' },
   { icon: Twitter, href: '#', label: 'Twitter' },
@@ -40,7 +42,7 @@ export default function Footer() {
           <div className="mb-10 pb-6 border-b border-slate-800/80 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <a href="/" className="bg-white px-4 py-2.5 rounded-2xl border border-slate-200/90 shadow-xs hover:shadow-md transition-all duration-200 inline-flex items-center">
               <img
-                src="/logo.svg"
+                src={withBasePath('/logo.svg')}
                 alt="Shiyali HR Services"
                 className="h-8 sm:h-9 w-auto object-contain"
               />

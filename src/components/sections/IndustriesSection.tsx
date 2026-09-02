@@ -11,6 +11,7 @@ import {
   type LucideIcon,
 } from 'lucide-react';
 import { INDUSTRIES_DATA } from '@/lib/constants';
+import { withBasePath } from '@/lib/utils';
 
 const iconMap: Record<string, LucideIcon> = {
   droplets: Droplets,
@@ -41,7 +42,7 @@ function IndustryCard({ industry, index }: IndustryCardProps) {
       {/* Top Image Portion */}
       <div className="relative h-28 sm:h-44 w-full overflow-hidden bg-slate-100">
         <img
-          src={industry.image}
+          src={withBasePath(industry.image)}
           onError={(e) => {
             if (industry.unsplashUrl) {
               (e.target as HTMLImageElement).src = industry.unsplashUrl;
