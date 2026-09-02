@@ -39,7 +39,7 @@ function IndustryCard({ industry, index }: IndustryCardProps) {
       className="group bg-white rounded-2xl border border-slate-100 shadow-md hover:shadow-xl hover:shadow-slate-200/80 transition-all duration-300 overflow-hidden flex flex-col cursor-pointer text-center"
     >
       {/* Top Image Portion */}
-      <div className="relative h-44 sm:h-48 w-full overflow-hidden bg-slate-100">
+      <div className="relative h-28 sm:h-44 w-full overflow-hidden bg-slate-100">
         <img
           src={industry.image}
           onError={(e) => {
@@ -48,18 +48,21 @@ function IndustryCard({ industry, index }: IndustryCardProps) {
             }
           }}
           alt={industry.title}
-          className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
         />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-60" />
       </div>
 
       {/* Center Overlapping Floating Icon Badge */}
-      <div className="relative z-10 -mt-7 mx-auto w-14 h-14 rounded-full bg-white shadow-lg border border-slate-100 flex items-center justify-center text-[#FF5722] group-hover:scale-110 group-hover:border-orange-200 transition-all duration-300">
-        <Icon className="w-6 h-6 stroke-[2] text-[#FF5722]" />
+      <div className="relative flex justify-center -mt-6 z-10">
+        <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-white shadow-lg border border-slate-100 flex items-center justify-center text-[#FF5722] group-hover:scale-110 transition-transform duration-300">
+          <Icon className="w-5 h-5 sm:w-6 sm:h-6 text-[#FF5722] stroke-[1.8]" />
+        </div>
       </div>
 
-      {/* Bottom Title Portion */}
-      <div className="pt-3 pb-6 px-3 flex items-center justify-center flex-1 min-h-[76px]">
-        <h3 className="text-base sm:text-lg font-bold text-[#061C33] leading-snug group-hover:text-[#FF5722] transition-colors duration-300">
+      {/* Bottom Title Container */}
+      <div className="pt-4 pb-4 px-2 sm:px-3 flex-1 flex items-center justify-center">
+        <h3 className="text-xs sm:text-sm font-extrabold text-[#061C33] group-hover:text-[#FF5722] transition-colors duration-200 leading-snug line-clamp-2">
           {industry.title}
         </h3>
       </div>
@@ -84,7 +87,7 @@ function BuildingIcon(props: React.SVGProps<SVGSVGElement>) {
 
 export default function IndustriesSection() {
   return (
-    <section id="industries" className="py-20 sm:py-24 bg-white">
+    <section id="industries" className="py-12 sm:py-20 lg:py-24 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header matching reference image */}
         <motion.div
@@ -92,19 +95,19 @@ export default function IndustriesSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center max-w-2xl mx-auto mb-14"
+          className="text-center max-w-2xl mx-auto mb-8 sm:mb-14"
         >
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#061C33] tracking-tight mb-2">
+          <h2 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-[#061C33] tracking-tight mb-2">
             Industries We Serve
           </h2>
-          <div className="w-12 h-1 bg-[#FF5722] rounded-full mx-auto mb-4" />
-          <p className="text-slate-500 text-base sm:text-lg">
+          <div className="w-12 h-1 bg-[#FF5722] rounded-full mx-auto mb-3" />
+          <p className="text-slate-500 text-sm sm:text-lg">
             Specialized recruitment solutions across diverse sectors
           </p>
         </motion.div>
 
         {/* 6-Card Horizontal Grid matching reference image */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 sm:gap-5">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-5">
           {INDUSTRIES_DATA.map((industry, index) => (
             <IndustryCard key={industry.slug} industry={industry} index={index} />
           ))}

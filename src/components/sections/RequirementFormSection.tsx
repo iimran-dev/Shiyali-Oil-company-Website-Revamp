@@ -93,14 +93,14 @@ export default function RequirementFormSection() {
   };
 
   return (
-    <section ref={sectionRef} id="requirement" className="bg-[#F8FAFC] py-20 lg:py-28 relative overflow-hidden">
+    <section ref={sectionRef} id="requirement" className="bg-[#F8FAFC] py-12 sm:py-20 lg:py-28 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 25 }}
           animate={isVisible ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="text-center max-w-2xl mx-auto mb-14"
+          className="text-center max-w-2xl mx-auto mb-8 sm:mb-14"
         >
           <span className="text-[#FF5722] font-bold text-xs sm:text-sm tracking-widest uppercase mb-3 block">
             Employer Inquiry

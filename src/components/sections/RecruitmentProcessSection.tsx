@@ -11,7 +11,6 @@ import {
   Send,
   UserCheck,
   Briefcase,
-  ArrowRight,
   CheckCircle2,
 } from 'lucide-react';
 import { PROCESS_STAGES } from '@/lib/constants';
@@ -39,12 +38,12 @@ function ProcessStage({ stage, index, isInView }: { stage: (typeof PROCESS_STAGE
   return (
     <motion.div
       ref={stageRef}
-      className="relative flex flex-col items-center text-center min-w-[180px] md:min-w-0 md:flex-1 shrink-0 px-2 group pt-2"
+      className="relative flex flex-col items-center text-center group pt-2"
       initial={{ opacity: 0, y: 30 }}
       animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-      transition={{ duration: 0.5, delay: 0.15 + index * 0.1 }}
+      transition={{ duration: 0.5, delay: 0.15 + index * 0.08 }}
     >
-      {/* Connecting Line (Desktop) */}
+      {/* Connecting Line (Desktop Only) */}
       {index > 0 && (
         <div
           className="hidden md:block absolute top-9 h-[2px]"
@@ -63,25 +62,25 @@ function ProcessStage({ stage, index, isInView }: { stage: (typeof PROCESS_STAGE
       {/* Circle Badge with Vibrant Hover Inversion */}
       <motion.div
         className={cn(
-          'relative z-10 w-14 h-14 rounded-full flex items-center justify-center mb-4 transition-all duration-300',
+          'relative z-10 w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center mb-3 sm:mb-4 transition-all duration-300',
           'border-2 border-[#FF5722] bg-white shadow-md shadow-orange-500/10',
           'group-hover:bg-[#FF5722] group-hover:border-[#FF5722] group-hover:shadow-lg group-hover:shadow-orange-500/30'
         )}
         whileHover={{ scale: 1.08, y: -2 }}
         transition={{ duration: 0.2 }}
       >
-        <span className="text-lg font-extrabold text-[#FF5722] group-hover:text-white transition-colors duration-300">
+        <span className="text-base sm:text-lg font-extrabold text-[#FF5722] group-hover:text-white transition-colors duration-300">
           {stage.number}
         </span>
       </motion.div>
 
       {/* Title */}
-      <h3 className="text-base md:text-lg font-bold text-[#061C33] mb-1.5 group-hover:text-[#FF5722] transition-colors duration-200">
+      <h3 className="text-xs sm:text-base font-bold text-[#061C33] mb-1 group-hover:text-[#FF5722] transition-colors duration-200 leading-snug">
         {stage.title}
       </h3>
 
-      {/* High Contrast Description */}
-      <p className="text-xs md:text-sm text-slate-600 font-medium max-w-[210px] leading-relaxed">
+      {/* High Contrast Visible Description */}
+      <p className="text-[11px] sm:text-xs md:text-sm text-slate-600 font-medium leading-relaxed max-w-[170px] sm:max-w-[210px]">
         {stage.description}
       </p>
     </motion.div>
@@ -93,12 +92,12 @@ function JourneyStep({ step, index, isInView, total }: { step: (typeof CANDIDATE
 
   return (
     <motion.div
-      className="relative flex flex-col items-center text-center flex-1 min-w-[160px] shrink-0 pt-2"
+      className="relative flex flex-col items-center text-center group pt-2"
       initial={{ opacity: 0, y: 20 }}
       animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-      transition={{ duration: 0.5, delay: 0.1 + index * 0.12 }}
+      transition={{ duration: 0.5, delay: 0.1 + index * 0.1 }}
     >
-      {/* Connecting line */}
+      {/* Connecting line (Desktop Only) */}
       {index < total - 1 && (
         <div
           className="hidden md:block absolute top-8 h-[2px]"
@@ -118,23 +117,23 @@ function JourneyStep({ step, index, isInView, total }: { step: (typeof CANDIDATE
       <div className="relative mb-3">
         <motion.div
           className={cn(
-            'relative z-10 w-12 h-12 rounded-full flex items-center justify-center',
+            'relative z-10 w-11 h-11 sm:w-12 sm:h-12 rounded-full flex items-center justify-center',
             'bg-[#FF5722] text-white shadow-md shadow-orange-500/20'
           )}
           whileHover={{ scale: 1.08, y: -2 }}
           transition={{ duration: 0.2 }}
         >
-          <Icon className="w-5 h-5 text-white" />
+          <Icon className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
         </motion.div>
 
-        {/* Step Number Badge safely anchored inside top-right of circle */}
+        {/* Step Number Badge */}
         <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-[#061C33] text-white text-[10px] font-bold flex items-center justify-center z-20 shadow-sm border border-white">
           {index + 1}
         </div>
       </div>
 
-      <h4 className="text-sm font-bold text-[#061C33] mb-1">{step.title}</h4>
-      <p className="text-xs text-slate-600 font-medium max-w-[180px] leading-relaxed">{step.description}</p>
+      <h4 className="text-xs sm:text-sm font-bold text-[#061C33] mb-1">{step.title}</h4>
+      <p className="text-[11px] sm:text-xs text-slate-600 font-medium max-w-[160px] sm:max-w-[180px] leading-relaxed">{step.description}</p>
     </motion.div>
   );
 }
@@ -151,11 +150,11 @@ function JourneyTabs() {
       transition={{ duration: 0.6 }}
     >
       <Tabs defaultValue="candidate" className="w-full">
-        <TabsList className="mx-auto h-12 p-1.5 bg-white border border-slate-200 shadow-sm rounded-xl">
+        <TabsList className="mx-auto h-11 p-1 bg-white border border-slate-200 shadow-sm rounded-xl flex items-center justify-center max-w-sm">
           <TabsTrigger
             value="candidate"
             className={cn(
-              'h-9 px-5 rounded-lg text-sm font-semibold transition-all',
+              'h-9 px-4 sm:px-5 rounded-lg text-xs sm:text-sm font-semibold transition-all flex-1',
               'data-[state=active]:bg-[#FF5722] data-[state=active]:text-white',
               'data-[state=active]:shadow-md data-[state=active]:shadow-orange-500/20',
               'text-slate-600 hover:text-[#061C33]'
@@ -166,7 +165,7 @@ function JourneyTabs() {
           <TabsTrigger
             value="employer"
             className={cn(
-              'h-9 px-5 rounded-lg text-sm font-semibold transition-all',
+              'h-9 px-4 sm:px-5 rounded-lg text-xs sm:text-sm font-semibold transition-all flex-1',
               'data-[state=active]:bg-[#FF5722] data-[state=active]:text-white',
               'data-[state=active]:shadow-md data-[state=active]:shadow-orange-500/20',
               'text-slate-600 hover:text-[#061C33]'
@@ -192,20 +191,21 @@ function JourneyTabContent({ steps }: { steps: typeof CANDIDATE_JOURNEY }) {
   const contentInView = useInView(contentRef, { once: false, margin: '-30px' });
 
   return (
-    <motion.div ref={contentRef} key={steps[0].title} className="mt-8">
-      <div className="bg-white rounded-2xl border border-slate-200/80 p-8 md:p-10 shadow-sm">
-        <div className="flex md:justify-between gap-8 md:gap-4 overflow-x-auto pt-3 pb-4 md:pb-0 -mx-2 px-2 snap-x snap-mandatory">
+    <motion.div ref={contentRef} key={steps[0].title} className="mt-6 sm:mt-8">
+      <div className="bg-white rounded-2xl border border-slate-200/80 p-5 sm:p-8 md:p-10 shadow-sm">
+        {/* Responsive Grid - Entire Section Visible on Mobile */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 pt-1 pb-2">
           {steps.map((step, index) => (
             <JourneyStep key={step.title} step={step} index={index} isInView={contentInView} total={steps.length} />
           ))}
         </div>
         <motion.div
-          className="flex items-center justify-center gap-2 mt-8 pt-6 border-t border-slate-100"
+          className="flex items-center justify-center gap-2 mt-6 pt-5 border-t border-slate-100 text-center"
           initial={{ opacity: 0 }}
           animate={contentInView ? { opacity: 1 } : { opacity: 0 }}
           transition={{ duration: 0.5, delay: 0.5 }}
         >
-          <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+          <CheckCircle2 className="w-4 h-4 text-[#FF5722] shrink-0" />
           <span className="text-xs font-semibold text-slate-700">
             Every step is managed by our dedicated team for a seamless experience
           </span>
@@ -220,7 +220,7 @@ export default function RecruitmentProcessSection() {
   const isInView = useInView(sectionRef, { once: true, margin: '-80px' });
 
   return (
-    <section id="recruitment-process" className="relative bg-[#F8FAFC] py-20 lg:py-28 overflow-hidden">
+    <section id="recruitment-process" className="relative bg-[#F8FAFC] py-12 sm:py-20 lg:py-28 overflow-hidden">
       {/* Subtle Dot Pattern */}
       <div
         className="absolute inset-0 pointer-events-none opacity-[0.03]"
@@ -233,7 +233,7 @@ export default function RecruitmentProcessSection() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Section Header */}
         <motion.div
-          className="text-center mb-14 lg:mb-20"
+          className="text-center mb-8 sm:mb-14 lg:mb-20"
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
           transition={{ duration: 0.6 }}
@@ -241,53 +241,41 @@ export default function RecruitmentProcessSection() {
           <span className="text-[#FF5722] font-bold text-xs sm:text-sm tracking-widest uppercase mb-3 block">
             How We Work
           </span>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-[#061C33] mb-4 tracking-tight">
+          <h2 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-[#061C33] mb-3 sm:mb-4 tracking-tight">
             Our Recruitment <span className="text-[#FF5722]">Process</span>
           </h2>
-          <p className="text-slate-600 font-medium max-w-2xl mx-auto text-base lg:text-lg">
+          <p className="text-slate-600 font-medium max-w-2xl mx-auto text-sm sm:text-lg">
             A structured, transparent approach to delivering the right talent.
           </p>
         </motion.div>
 
-        {/* Process Stages Grid */}
+        {/* Process Stages Responsive Grid - 100% Entirely Visible on Mobile */}
         <motion.div
           ref={sectionRef}
-          className="relative mb-12"
+          className="relative mb-10 sm:mb-16"
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : { opacity: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
         >
-          <div className="flex md:justify-between gap-6 md:gap-0 overflow-x-auto pt-3 pb-6 md:pb-0 -mx-2 px-2 snap-x snap-mandatory">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-5 sm:gap-4 pt-1">
             {PROCESS_STAGES.map((stage, index) => (
               <ProcessStage key={stage.number} stage={stage} index={index} isInView={isInView} />
             ))}
           </div>
-
-          {/* Mobile Scroll Indicator */}
-          <motion.div
-            className="flex md:hidden items-center justify-center gap-2 mt-4"
-            initial={{ opacity: 0 }}
-            animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-            transition={{ duration: 0.5, delay: 1 }}
-          >
-            <ArrowRight className="w-3.5 h-3.5 text-slate-400 rotate-[-45deg]" />
-            <span className="text-xs text-slate-500 font-medium">Scroll to see all stages</span>
-            <ArrowRight className="w-3.5 h-3.5 text-slate-400 rotate-[45deg]" />
-          </motion.div>
         </motion.div>
 
         {/* Journey Tabs */}
-        <div className="mt-16 lg:mt-24 max-w-4xl mx-auto">
+        <div className="mt-10 sm:mt-16 lg:mt-24 max-w-4xl mx-auto">
           <motion.div
-            className="text-center mb-8"
+            className="text-center mb-6 sm:mb-8"
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ duration: 0.5, delay: 0.3 }}
           >
-            <h3 className="text-xl md:text-2xl font-extrabold text-[#061C33]">
+            <h3 className="text-lg sm:text-2xl font-extrabold text-[#061C33]">
               Your Journey With Shiyali
             </h3>
-            <p className="text-sm font-medium text-slate-500 mt-2">
+            <p className="text-xs sm:text-sm font-medium text-slate-500 mt-1 sm:mt-2">
               Tailored experiences for candidates and employers
             </p>
           </motion.div>

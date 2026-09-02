@@ -25,7 +25,7 @@ const featureIcons: Record<string, LucideIcon> = {
 
 export default function WhyShiyaliSection() {
   return (
-    <section id="why-shiyali" className="py-20 sm:py-28 bg-white">
+    <section id="why-shiyali" className="py-12 sm:py-20 lg:py-28 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
           {/* Left Column: Headline & CTA */}

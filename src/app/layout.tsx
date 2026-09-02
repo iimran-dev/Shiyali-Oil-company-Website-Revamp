@@ -31,6 +31,8 @@ export const metadata: Metadata = {
   },
 };
 
+import SmoothScroll from "@/components/SmoothScroll";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -47,8 +49,10 @@ export default function RootLayout({
         />
       </head>
       <body className="antialiased bg-background text-foreground">
-        {children}
-        <Toaster />
+        <SmoothScroll>
+          {children}
+          <Toaster />
+        </SmoothScroll>
       </body>
     </html>
   );
