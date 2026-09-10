@@ -83,19 +83,17 @@ export default function HeroSection() {
             className="flex flex-wrap items-center gap-4 mb-10"
           >
             <Button
-              size="lg"
-              className="group bg-[#FF5722] hover:bg-[#E64A19] text-white font-semibold text-base px-8 py-6 rounded-xl shadow-xl shadow-orange-500/25 hover:shadow-orange-500/40 hover:-translate-y-0.5 transition-all duration-300 h-auto"
+              className="group bg-[#FF5722] hover:bg-[#E64A19] text-white font-semibold text-sm sm:text-base px-6 sm:px-7 h-11 rounded-xl shadow-lg shadow-orange-500/25 hover:shadow-orange-500/40 hover:-translate-y-0.5 transition-all duration-300"
             >
               <span>Hire Talent</span>
-              <ArrowRight className="ml-2.5 h-5 w-5 stroke-[2.5] group-hover:translate-x-1 transition-transform duration-300" />
+              <ArrowRight className="ml-2 h-4.5 w-4.5 stroke-[2.5] group-hover:translate-x-1 transition-transform duration-300" />
             </Button>
             <Button
-              size="lg"
               variant="outline"
-              className="group border-[#90E0EF]/70 bg-white/85 backdrop-blur-md hover:bg-white text-[#061C33] font-semibold text-base px-8 py-6 rounded-xl shadow-md shadow-slate-200/60 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 h-auto"
+              className="group border-[#90E0EF]/70 bg-white/85 backdrop-blur-md hover:bg-white text-[#061C33] font-semibold text-sm sm:text-base px-6 sm:px-7 h-11 rounded-xl shadow-xs hover:shadow-md hover:-translate-y-0.5 transition-all duration-300"
             >
               <span>Explore Jobs</span>
-              <ArrowRight className="ml-2.5 h-5 w-5 stroke-[2.5] text-[#FF5722] group-hover:translate-x-1 transition-transform duration-300" />
+              <ArrowRight className="ml-2 h-4 w-4 stroke-[2.5] text-[#FF5722] group-hover:translate-x-1 transition-transform duration-300" />
             </Button>
           </motion.div>
 
@@ -106,19 +104,6 @@ export default function HeroSection() {
             transition={{ duration: 0.5, delay: 0.4 }}
             className="flex flex-wrap items-center gap-x-6 gap-y-3 text-[#061C33] font-semibold text-sm sm:text-base pt-3 border-t border-slate-200/70"
           >
-            <div className="flex items-center gap-2">
-              <div className="w-5 h-5 rounded-full bg-orange-500/10 border border-orange-400/30 flex items-center justify-center text-[#FF5722] shrink-0">
-                <ShieldCheck className="w-3.5 h-3.5 text-[#FF5722]" strokeWidth={2.5} />
-              </div>
-              <span>Licensed Overseas Recruiter</span>
-            </div>
-
-            <div className="flex items-center gap-2">
-              <div className="w-5 h-5 rounded-full bg-emerald-500/10 border border-emerald-400/30 flex items-center justify-center text-emerald-600 shrink-0">
-                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" strokeWidth={2.5} />
-              </div>
-              <span className="text-slate-700">100% Government Approved</span>
-            </div>
           </motion.div>
         </div>
       </div>

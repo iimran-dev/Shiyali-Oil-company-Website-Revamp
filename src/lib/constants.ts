@@ -29,9 +29,7 @@ export const TRUST_METRICS = [
   { value: 20, suffix: '+', label: 'Years of Experience', icon: 'award' },
   { value: 500, suffix: '+', label: 'Global Clients', icon: 'users' },
   { value: 10000, suffix: '+', label: 'Successful Placements', icon: 'user-check' },
-  { value: 6, suffix: '+', label: 'Countries We Serve', icon: 'globe' },
-  { value: 50, suffix: '+', label: 'Industries We Hire For', icon: 'building' },
-  { value: 100, suffix: '%', label: 'Client Satisfaction', icon: 'thumbs-up' },
+  { value: 6, suffix: '+', label: 'Countries We Serve', icon: 'globe' }
 ];
 
 export const INDUSTRIES_DATA = [

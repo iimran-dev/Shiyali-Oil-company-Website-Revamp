@@ -25,77 +25,76 @@ const featureIcons: Record<string, LucideIcon> = {
 
 export default function WhyShiyaliSection() {
   return (
-    <section id="why-shiyali" className="py-12 sm:py-20 lg:py-28 bg-white">
+    <section id="why-shiyali" className="py-12 sm:py-16 lg:py-20 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
-          {/* Left Column: Headline & CTA */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+          {/* Left Column: Clear & Punchy Value Statement */}
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="lg:col-span-4 flex flex-col justify-center"
+            transition={{ duration: 0.5 }}
+            className="lg:col-span-5 flex flex-col justify-center"
           >
-            {/* Subtitle */}
-            <span className="text-[#FF5722] font-semibold text-sm sm:text-base mb-3 block">
-              Why Employers Choose Shiyali
+            <span className="text-[#FF5722] font-bold text-xs sm:text-sm tracking-wider uppercase mb-2 block">
+              Why Choose Shiyali
             </span>
 
-            {/* Main Headline */}
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#061C33] tracking-tight leading-[1.12] mb-6">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#061C33] tracking-tight leading-tight mb-3 sm:mb-4">
               Your Success.
               <br />
               Our Commitment.
             </h2>
 
-            {/* Description Paragraph */}
-            <p className="text-slate-600 text-base sm:text-lg leading-relaxed mb-8">
-              We go beyond recruitment. We build long-lasting partnerships by delivering quality talent that drives your business.
+            <p className="text-slate-600 text-sm sm:text-base leading-relaxed mb-6 max-w-md">
+              We go beyond recruitment. We build long-lasting partnerships by delivering verified,
+              recruitment-ready talent that drives your business forward across the GCC.
             </p>
 
-            {/* CTA Button */}
             <div>
               <Button
-                size="lg"
-                className="group bg-[#FF5722] hover:bg-[#E64A19] text-white font-semibold text-base px-7 py-6 rounded-xl shadow-lg shadow-orange-500/25 hover:shadow-orange-500/35 transition-all duration-300 h-auto"
+                asChild
+                className="w-full sm:w-auto bg-[#FF5722] hover:bg-[#E64A19] text-white font-semibold text-sm h-11 px-6 rounded-xl shadow-md shadow-orange-500/20 hover:shadow-lg hover:shadow-orange-500/30 hover:-translate-y-0.5 transition-all duration-200"
               >
-                <span>Know More About Us</span>
-                <ArrowRight className="ml-2.5 h-5 w-5 stroke-[2.5] group-hover:translate-x-1 transition-transform duration-300" />
+                <a href="#requirement">
+                  <span>Know More About Us</span>
+                  <ArrowRight className="ml-2 h-4 w-4 stroke-[2.5]" />
+                </a>
               </Button>
             </div>
           </motion.div>
 
-          {/* Right Column: 6 Feature Cards inside Light Blue Container Panel */}
+          {/* Right Column: Clean, Compact 2-Column Feature Cards */}
           <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="lg:col-span-8 bg-[#F4F8FC] rounded-3xl p-6 sm:p-8 md:p-10 border border-slate-100/90 shadow-sm"
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-3.5"
           >
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-              {WHY_SHIYALI_FEATURES.map((feature) => {
-                const Icon = featureIcons[feature.icon] || ShieldCheck;
-                return (
-                  <div key={feature.title} className="flex items-start gap-4">
-                    {/* Floating White Circular Icon Badge */}
-                    <div className="w-12 h-12 rounded-full bg-white shadow-md border border-slate-100 flex items-center justify-center text-sky-600 shrink-0">
-                      <Icon className="w-5 h-5 stroke-[1.8] text-sky-600" />
-                    </div>
+            {WHY_SHIYALI_FEATURES.map((feature) => {
+              const Icon = featureIcons[feature.icon] || ShieldCheck;
 
-                    {/* Feature Title & Description */}
-                    <div className="flex flex-col">
-                      <h3 className="text-base sm:text-lg font-bold text-[#061C33] leading-snug mb-1">
-                        {feature.title}
-                      </h3>
-                      <p className="text-xs sm:text-sm text-slate-500 leading-relaxed">
-                        {feature.description}
-                      </p>
-                    </div>
+              return (
+                <div
+                  key={feature.title}
+                  className="group flex items-start gap-3.5 p-3.5 sm:p-4 rounded-xl bg-[#F8FAFC] hover:bg-white border border-slate-200/70 hover:border-orange-300/80 hover:shadow-sm transition-all duration-200"
+                >
+                  <div className="w-9 h-9 rounded-lg bg-white border border-slate-200/80 group-hover:border-orange-200 group-hover:bg-orange-50/50 flex items-center justify-center text-[#061C33] group-hover:text-[#FF5722] shrink-0 mt-0.5 transition-colors duration-200 shadow-2xs">
+                    <Icon className="w-4.5 h-4.5 stroke-[2]" />
                   </div>
-                );
-              })}
-            </div>
+
+                  <div className="min-w-0">
+                    <h3 className="text-sm sm:text-base font-bold text-[#061C33] group-hover:text-[#FF5722] transition-colors duration-200 leading-snug">
+                      {feature.title}
+                    </h3>
+                    <p className="text-xs text-slate-500 leading-relaxed mt-1">
+                      {feature.description}
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
           </motion.div>
         </div>
       </div>

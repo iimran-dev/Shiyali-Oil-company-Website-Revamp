@@ -204,7 +204,7 @@ export default function RequirementFormSection() {
               <Button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-[#FF5722] hover:bg-[#E64A19] text-white font-extrabold h-12 text-base rounded-xl shadow-md shadow-orange-500/20 transition-all duration-200"
+                className="w-full bg-[#FF5722] hover:bg-[#E64A19] text-white font-bold h-11 text-sm sm:text-base rounded-xl shadow-lg shadow-orange-500/25 hover:shadow-orange-500/40 hover:-translate-y-0.5 transition-all duration-300"
               >
                 {isSubmitting ? (
                   'Submitting Requirement...'

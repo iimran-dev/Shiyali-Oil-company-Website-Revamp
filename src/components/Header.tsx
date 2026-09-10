@@ -134,7 +134,7 @@ export default function Header() {
                 <a
                   href={link.href}
                   className={cn(
-                    'flex items-center gap-1 px-3.5 py-2 text-sm font-extrabold text-[#061C33] hover:text-[#FF5722] rounded-lg transition-colors duration-200'
+                    'flex items-center gap-1 px-3.5 py-2 text-sm font-semibold text-[#061C33] hover:text-[#FF5722] rounded-lg transition-colors duration-200'
                   )}
                 >
                   {link.label}

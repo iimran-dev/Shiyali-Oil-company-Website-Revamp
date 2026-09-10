@@ -51,7 +51,7 @@ export default function ContactStripSection() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 w-full sm:w-auto">
             <Button
               asChild
-              className="w-full sm:w-auto bg-sky-600 hover:bg-sky-700 text-white font-bold text-xs sm:text-sm h-10 px-5 rounded-xl transition-all justify-center"
+              className="w-full sm:w-auto bg-sky-600 hover:bg-sky-700 text-white font-semibold text-sm sm:text-base h-11 px-6 rounded-xl transition-all duration-300 justify-center shadow-md shadow-sky-900/20 hover:-translate-y-0.5"
             >
               <a href="https://wa.me/971XXXXXXXXX" target="_blank" rel="noopener noreferrer">
                 <MessageCircle className="w-4 h-4 mr-2 stroke-[2.5]" />
@@ -60,7 +60,7 @@ export default function ContactStripSection() {
             </Button>
             <Button
               asChild
-              className="w-full sm:w-auto bg-[#FF5722] hover:bg-[#E64A19] text-white font-bold text-xs sm:text-sm h-10 px-5 rounded-xl shadow-md shadow-orange-500/20 transition-all justify-center"
+              className="w-full sm:w-auto bg-[#FF5722] hover:bg-[#E64A19] text-white font-semibold text-sm sm:text-base h-11 px-6 rounded-xl shadow-lg shadow-orange-500/25 hover:shadow-orange-500/40 transition-all duration-300 justify-center hover:-translate-y-0.5"
             >
               <a href="#requirement">
                 <CalendarDays className="w-4 h-4 mr-2 stroke-[2.5]" />
