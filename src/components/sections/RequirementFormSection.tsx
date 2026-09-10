@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Send, Shield, Award, Clock, Users } from 'lucide-react';
+import { Send, Shield, Award, Users, Clock } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -16,7 +16,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { cn } from '@/lib/utils';
+import { cn, withBasePath } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
 import { useScrollAnimation } from '@/hooks/use-scroll-animation';
 
@@ -70,7 +70,7 @@ export default function RequirementFormSection() {
   const onSubmit = async (data: FormValues) => {
     setIsSubmitting(true);
     try {
-      const res = await fetch('/api/requirement', {
+      const res = await fetch(withBasePath('/api/requirement'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),

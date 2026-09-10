@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { ArrowRight, ShieldCheck, CheckCircle2 } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { withBasePath } from '@/lib/utils';
 
@@ -101,15 +101,6 @@ export default function HeroSection() {
                 <ArrowRight className="ml-2 h-4 w-4 stroke-[2] text-[#FF5722] group-hover:translate-x-1 transition-transform duration-200" />
               </a>
             </Button>
-          </motion.div>
-
-          {/* Verification Badges */}
-          <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-            className="flex flex-wrap items-center gap-x-6 gap-y-3 text-[#061C33] font-semibold text-sm sm:text-base pt-3 border-t border-slate-200/70"
-          >
           </motion.div>
         </div>
       </div>

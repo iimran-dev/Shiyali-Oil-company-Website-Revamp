@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MapPin, ArrowRight, Briefcase, Clock, Sparkles } from 'lucide-react';
+import { MapPin, ArrowRight, Briefcase, Clock } from 'lucide-react';
 import { FEATURED_JOBS } from '@/lib/constants';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';

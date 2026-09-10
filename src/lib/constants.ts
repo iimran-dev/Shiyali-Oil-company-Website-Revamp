@@ -7,23 +7,6 @@ export const NAV_INDUSTRIES = [
   { name: 'Healthcare', slug: 'healthcare' },
 ];
 
-export const NAV_SERVICES = [
-  { name: 'Bulk Hiring', slug: 'bulk-hiring' },
-  { name: 'Project Staffing', slug: 'project-staffing' },
-  { name: 'Shutdown Recruitment', slug: 'shutdown-recruitment' },
-  { name: 'Contract Staffing', slug: 'contract-staffing' },
-  { name: 'Executive Search', slug: 'executive-search' },
-  { name: 'Overseas Recruitment', slug: 'overseas-recruitment' },
-];
-
-export const NAV_JOBS = [
-  { name: 'Jobs in UAE', slug: 'jobs-uae' },
-  { name: 'Jobs in Saudi Arabia', slug: 'jobs-saudi' },
-  { name: 'Jobs in Qatar', slug: 'jobs-qatar' },
-  { name: 'Jobs in Oman', slug: 'jobs-oman' },
-  { name: 'Jobs in Kuwait', slug: 'jobs-kuwait' },
-  { name: 'Jobs in Bahrain', slug: 'jobs-bahrain' },
-];
 
 export const TRUST_METRICS = [
   { value: 20, suffix: '+', label: 'Years of Experience', icon: 'award' },
@@ -116,23 +99,6 @@ export const WHY_SHIYALI_FEATURES = [
   },
 ];
 
-export const PROCESS_STAGES = [
-  { number: '01', title: 'Requirement Analysis', description: 'Understanding client needs, role specifications and project context.' },
-  { number: '02', title: 'Candidate Sourcing', description: 'Leveraging our database, networks and targeted sourcing strategies.' },
-  { number: '03', title: 'Screening', description: 'Rigorous resume screening, background verification and initial interviews.' },
-  { number: '04', title: 'Technical Assessment', description: 'Domain-specific technical evaluations and competency validation.' },
-  { number: '05', title: 'Client Interview', description: 'Coordinating interviews and managing the selection process.' },
-  { number: '06', title: 'Mobilization', description: 'Visa processing, documentation and onboarding support.' },
-];
-
-export const EMPLOYER_SOLUTIONS = [
-  { title: 'Bulk Hiring', description: 'Scale your workforce rapidly with volume recruitment for large projects and operations.', icon: 'users' },
-  { title: 'Project Staffing', description: 'Dedicated project-based recruitment teams aligned to your timeline and deliverables.', icon: 'briefcase' },
-  { title: 'Shutdown Recruitment', description: 'Time-critical mobilization for plant shutdowns, turnarounds and maintenance events.', icon: 'clock' },
-  { title: 'Contract Staffing', description: 'Flexible contract-based hiring solutions for seasonal or project-specific needs.', icon: 'file-text' },
-  { title: 'Executive Search', description: 'Confidential headhunting for C-suite and senior leadership positions.', icon: 'target' },
-  { title: 'Overseas Recruitment', description: 'International talent mobility with complete visa and documentation support.', icon: 'globe' },
-];
 
 export const FEATURED_JOBS = [
   { role: 'Senior Mechanical Engineer', country: 'Saudi Arabia', salary: 'SAR 18,000 – 25,000', experience: '8–12 Years', industry: 'Oil & Gas', location: 'Riyadh' },
@@ -195,15 +161,6 @@ export const SUCCESS_STORIES = [
   },
 ];
 
-export const GCC_COUNTRIES = [
-  { name: 'UAE', lat: 24.0, lng: 53.5, x: 62, y: 42, placements: 3200, activeRoles: 145 },
-  { name: 'Saudi Arabia', lat: 24.7, lng: 46.7, x: 42, y: 38, placements: 4100, activeRoles: 210 },
-  { name: 'Qatar', lat: 25.3, lng: 51.2, x: 54, y: 35, placements: 1800, activeRoles: 89 },
-  { name: 'Oman', lat: 21.5, lng: 55.9, x: 68, y: 52, placements: 950, activeRoles: 52 },
-  { name: 'Kuwait', lat: 29.4, lng: 47.9, x: 42, y: 20, placements: 720, activeRoles: 38 },
-  { name: 'Bahrain', lat: 26.1, lng: 50.6, x: 50, y: 33, placements: 430, activeRoles: 22 },
-];
-
 export const FOOTER_NAV = {
   Company: ['About Us', 'Our Team', 'Careers', 'Contact'],
   Industries: ['Oil & Gas', 'EPC Projects', 'Infrastructure', 'Construction', 'Manufacturing', 'Healthcare'],
@@ -211,17 +168,3 @@ export const FOOTER_NAV = {
   Jobs: ['Jobs in UAE', 'Jobs in Saudi Arabia', 'Jobs in Qatar', 'Jobs in Oman', 'Jobs in Kuwait', 'Jobs in Bahrain'],
   Compliance: ['Government Licenses', 'Certifications', 'Data Protection', 'Terms of Service', 'Privacy Policy'],
 };
-
-export const MILESTONES = [
-  { year: '2003', title: 'Company Founded', description: 'Shiyali HR Services established with a vision to connect global talent with GCC opportunities.' },
-  { year: '2007', title: 'GCC Expansion', description: 'Expanded operations to Saudi Arabia, Qatar and Oman with dedicated regional teams.' },
-  { year: '2012', title: '10,000 Placements Milestone', description: 'Crossed 10,000 successful placements across the GCC region.' },
-  { year: '2016', title: 'Healthcare Vertical Launch', description: 'Launched dedicated healthcare recruitment division serving hospitals and medical facilities.' },
-  { year: '2020', title: '500+ Clients', description: 'Reached 500+ enterprise clients including Fortune 500 and regional leaders.' },
-  { year: '2024', title: 'Digital Transformation', description: 'Launched AI-powered candidate matching and digital recruitment platform.' },
-];
-
-export const INDUSTRY_TICKERS = [
-  'Oil & Gas', 'EPC Projects', 'Healthcare', 'Infrastructure', 'Manufacturing', 'Construction',
-  'Petrochemical', 'Power & Energy', 'Marine & Offshore', 'Facility Management',
-];
