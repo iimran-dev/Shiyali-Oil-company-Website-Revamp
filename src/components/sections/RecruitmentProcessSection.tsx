@@ -94,22 +94,34 @@ export default function RecruitmentProcessSection() {
                 transition={{ duration: 0.4, delay: index * 0.08 }}
                 className="relative flex flex-col items-center text-center group"
               >
-                {/* Connecting Line to Next Step with Arrow */}
-                {!isLast && (
-                  <div className="absolute top-9 left-[calc(50%+28px)] right-[calc(-50%+28px)] flex items-center z-0 pointer-events-none">
-                    <div className="w-full h-[2px] bg-slate-200 group-hover:bg-orange-200 transition-colors duration-200" />
-                    <ArrowRight className="w-3.5 h-3.5 text-slate-300 group-hover:text-[#FF5722] -ml-1.5 shrink-0 transition-colors duration-200" />
-                  </div>
-                )}
-
                 {/* Step Indicator */}
                 <span className="text-[11px] font-mono font-bold tracking-wider px-2 py-0.5 rounded-md bg-slate-100 text-slate-500 group-hover:bg-orange-50 group-hover:text-[#FF5722] transition-colors duration-200 mb-2.5">
                   {stage.step}
                 </span>
 
-                {/* Node Icon Box */}
-                <div className="relative z-10 w-14 h-14 rounded-2xl bg-white border-2 border-slate-200 group-hover:border-[#FF5722] shadow-2xs group-hover:shadow-md group-hover:shadow-orange-500/15 flex items-center justify-center text-[#061C33] group-hover:text-[#FF5722] group-hover:-translate-y-1 transition-all duration-200">
-                  <Icon className="w-6 h-6 stroke-[1.8]" />
+                {/* Node Icon Box & Horizontal Connecting Arrow Row */}
+                <div className="relative w-full flex items-center justify-center">
+                  <div className="relative z-10 w-14 h-14 rounded-2xl bg-white border-2 border-slate-200 group-hover:border-[#FF5722] shadow-2xs group-hover:shadow-md group-hover:shadow-orange-500/15 flex items-center justify-center text-[#061C33] group-hover:text-[#FF5722] group-hover:-translate-y-0.5 transition-all duration-200">
+                    <Icon className="w-6 h-6 stroke-[1.8]" />
+                  </div>
+
+                  {/* Connecting Line to Next Step with Arrow */}
+                  {!isLast && (
+                    <div className="absolute top-1/2 -translate-y-1/2 left-[calc(50%+35px)] right-[calc(-50%+19px)] flex items-center z-0 pointer-events-none">
+                      <div className="w-full h-[1.5px] bg-slate-200 group-hover:bg-[#FF5722]/40 transition-colors duration-200" />
+                      <svg
+                        className="w-2.5 h-2.5 -ml-1 shrink-0 text-slate-300 group-hover:text-[#FF5722] transition-colors duration-200"
+                        viewBox="0 0 10 10"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.75"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <path d="M2.5 1.5L7.5 5L2.5 8.5" />
+                      </svg>
+                    </div>
+                  )}
                 </div>
 
                 {/* Title */}
@@ -127,13 +139,11 @@ export default function RecruitmentProcessSection() {
         </div>
 
         {/* Mobile / Tablet Vertical Connected Flow (< lg) */}
-        <div className="lg:hidden relative pl-6 sm:pl-8 max-w-md mx-auto">
-          {/* Continuous Vertical Timeline Line */}
-          <div className="absolute left-[23px] sm:left-[31px] top-6 bottom-6 w-[2px] bg-slate-200" />
-
+        <div className="lg:hidden relative max-w-md mx-auto">
           <div className="space-y-6 sm:space-y-8">
             {FLOW_STAGES.map((stage, index) => {
               const Icon = stage.icon;
+              const isLast = index === FLOW_STAGES.length - 1;
 
               return (
                 <motion.div
@@ -144,6 +154,24 @@ export default function RecruitmentProcessSection() {
                   transition={{ duration: 0.35, delay: index * 0.06 }}
                   className="relative flex items-start gap-4 sm:gap-5 group"
                 >
+                  {/* Vertical Connector to Next Step with Downward Arrow */}
+                  {!isLast && (
+                    <div className="absolute left-6 top-[52px] bottom-[-20px] sm:bottom-[-28px] -translate-x-1/2 flex flex-col items-center z-0 pointer-events-none">
+                      <div className="w-[1.5px] flex-1 bg-slate-200 group-hover:bg-[#FF5722]/40 transition-colors duration-200" />
+                      <svg
+                        className="w-2.5 h-2.5 -mt-0.5 shrink-0 text-slate-300 group-hover:text-[#FF5722] transition-colors duration-200"
+                        viewBox="0 0 10 10"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.75"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <path d="M1.5 2.5L5 7.5L8.5 2.5" />
+                      </svg>
+                    </div>
+                  )}
+
                   {/* Node Icon */}
                   <div className="relative z-10 w-12 h-12 rounded-xl bg-white border-2 border-slate-200 group-hover:border-[#FF5722] shadow-2xs flex items-center justify-center text-[#061C33] group-hover:text-[#FF5722] shrink-0 transition-colors">
                     <Icon className="w-5 h-5 stroke-[1.8]" />
