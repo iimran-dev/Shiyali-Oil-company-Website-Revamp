@@ -83,17 +83,23 @@ export default function HeroSection() {
             className="flex flex-wrap items-center gap-4 mb-10"
           >
             <Button
-              className="group bg-[#FF5722] hover:bg-[#E64A19] text-white font-semibold text-sm sm:text-base px-6 sm:px-7 h-11 rounded-xl shadow-lg shadow-orange-500/25 hover:shadow-orange-500/40 hover:-translate-y-0.5 transition-all duration-300"
+              asChild
+              className="group bg-[#FF5722] hover:bg-[#E64A19] text-white font-semibold text-sm px-5 sm:px-6 h-11 rounded-xl shadow-md shadow-orange-500/20 hover:shadow-lg hover:shadow-orange-500/30 hover:-translate-y-0.5 transition-all duration-200"
             >
-              <span>Hire Talent</span>
-              <ArrowRight className="ml-2 h-4.5 w-4.5 stroke-[2.5] group-hover:translate-x-1 transition-transform duration-300" />
+              <a href="#requirement">
+                <span>Hire Talent</span>
+                <ArrowRight className="ml-2 h-4 w-4 stroke-[2] group-hover:translate-x-1 transition-transform duration-200" />
+              </a>
             </Button>
             <Button
+              asChild
               variant="outline"
-              className="group border-[#90E0EF]/70 bg-white/85 backdrop-blur-md hover:bg-white text-[#061C33] font-semibold text-sm sm:text-base px-6 sm:px-7 h-11 rounded-xl shadow-xs hover:shadow-md hover:-translate-y-0.5 transition-all duration-300"
+              className="group border-[#90E0EF]/80 bg-white/90 backdrop-blur-md hover:bg-white text-[#061C33] font-semibold text-sm px-5 sm:px-6 h-11 rounded-xl shadow-2xs hover:shadow-sm hover:-translate-y-0.5 transition-all duration-200"
             >
-              <span>Explore Jobs</span>
-              <ArrowRight className="ml-2 h-4 w-4 stroke-[2.5] text-[#FF5722] group-hover:translate-x-1 transition-transform duration-300" />
+              <a href="#jobs">
+                <span>Explore Jobs</span>
+                <ArrowRight className="ml-2 h-4 w-4 stroke-[2] text-[#FF5722] group-hover:translate-x-1 transition-transform duration-200" />
+              </a>
             </Button>
           </motion.div>
 

@@ -40,7 +40,7 @@ export default function Footer() {
         <div>
           {/* Footer Brand Logo & Accreditation */}
           <div className="mb-10 pb-6 border-b border-slate-800/80 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-            <a href="/" className="bg-white px-4 py-2.5 rounded-2xl border border-slate-200/90 shadow-xs hover:shadow-md transition-all duration-200 inline-flex items-center">
+            <a href={withBasePath('/')} className="bg-white px-4 py-2.5 rounded-2xl border border-slate-200/90 shadow-xs hover:shadow-md transition-all duration-200 inline-flex items-center">
               <img
                 src={withBasePath('/logo.svg')}
                 alt="Shiyali HR Services"

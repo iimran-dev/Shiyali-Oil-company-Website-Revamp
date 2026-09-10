@@ -1,57 +1,58 @@
 'use client';
 
-import { useState, useCallback, useRef } from 'react';
-import { motion, AnimatePresence, useInView } from 'framer-motion';
-import { Quote, ChevronLeft, ChevronRight, CheckCircle2, Award, MessageSquareQuote } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { CheckCircle2, Star, Building2, Sparkles } from 'lucide-react';
 import { TESTIMONIALS, SUCCESS_STORIES } from '@/lib/constants';
-import { cn } from '@/lib/utils';
-import { useCounter } from '@/hooks/use-counter';
 
-function MetricCounter({ metric }: { metric: string }) {
-  const numericPart = parseInt(metric.replace(/[^0-9]/g, ''), 10);
-  const hasPlus = metric.includes('+');
-  const [ref, count] = useCounter(numericPart, 1800, true);
-
-  return (
-    <span ref={ref}>
-      {count.toLocaleString()}
-      {hasPlus ? '+' : ''}
-    </span>
-  );
+interface CaseStudyStory {
+  metric: string;
+  metricLabel: string;
+  market: string;
+  title: string;
+  quote: string;
+  author: string;
+  role: string;
+  company: string;
+  results: string[];
 }
 
+const CASE_STORIES: CaseStudyStory[] = [
+  {
+    metric: SUCCESS_STORIES[0].metric,
+    metricLabel: SUCCESS_STORIES[0].metricLabel,
+    market: 'Saudi Arabia',
+    title: SUCCESS_STORIES[0].title,
+    quote: TESTIMONIALS[0].quote,
+    author: TESTIMONIALS[0].name,
+    role: TESTIMONIALS[0].title,
+    company: TESTIMONIALS[0].company,
+    results: ['45-Day Turnaround', 'Zero Compliance Errors'],
+  },
+  {
+    metric: SUCCESS_STORIES[1].metric,
+    metricLabel: SUCCESS_STORIES[1].metricLabel,
+    market: 'UAE',
+    title: SUCCESS_STORIES[1].title,
+    quote: TESTIMONIALS[1].quote,
+    author: TESTIMONIALS[1].name,
+    role: TESTIMONIALS[1].title,
+    company: TESTIMONIALS[1].company,
+    results: ['12 Facilities Staffed', '98% Retention Rate'],
+  },
+  {
+    metric: SUCCESS_STORIES[2].metric,
+    metricLabel: SUCCESS_STORIES[2].metricLabel,
+    market: 'Oman',
+    title: SUCCESS_STORIES[2].title,
+    quote: TESTIMONIALS[2].quote,
+    author: TESTIMONIALS[2].name,
+    role: TESTIMONIALS[2].title,
+    company: TESTIMONIALS[2].company,
+    results: ['180 Crew in 30 Days', 'Zero Safety Incidents'],
+  },
+];
+
 export default function TestimonialsSection() {
-  // Testimonials Carousel State
-  const [testiIdx, setTestiIdx] = useState(0);
-  const [testiDir, setTestiDir] = useState(0);
-
-  // Success Stories Carousel State
-  const [storyIdx, setStoryIdx] = useState(0);
-  const [storyDir, setStoryDir] = useState(0);
-
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(sectionRef, { once: true, margin: '-50px' });
-
-  // Testimonials navigation
-  const nextTesti = useCallback(() => {
-    setTestiDir(1);
-    setTestiIdx((prev) => (prev + 1) % TESTIMONIALS.length);
-  }, []);
-  const prevTesti = useCallback(() => {
-    setTestiDir(-1);
-    setTestiIdx((prev) => (prev - 1 + TESTIMONIALS.length) % TESTIMONIALS.length);
-  }, []);
-
-  // Success Stories navigation
-  const nextStory = useCallback(() => {
-    setStoryDir(1);
-    setStoryIdx((prev) => (prev + 1) % SUCCESS_STORIES.length);
-  }, []);
-  const prevStory = useCallback(() => {
-    setStoryDir(-1);
-    setStoryIdx((prev) => (prev - 1 + SUCCESS_STORIES.length) % SUCCESS_STORIES.length);
-  }, []);
-
   const getInitials = (name: string) => {
     return name
       .split(' ')
@@ -61,231 +62,117 @@ export default function TestimonialsSection() {
       .slice(0, 2);
   };
 
-  const currentTestimonial = TESTIMONIALS[testiIdx];
-  const currentStory = SUCCESS_STORIES[storyIdx];
-
   return (
-    <section ref={sectionRef} id="testimonials" className="py-12 sm:py-20 lg:py-28 bg-[#F8FAFC] relative overflow-hidden">
+    <section
+      id="testimonials"
+      className="py-10 sm:py-14 lg:py-16 bg-[#F8FAFC] border-y border-slate-100 relative overflow-hidden"
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 25 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="text-center max-w-2xl mx-auto mb-8 sm:mb-14"
-        >
-          <span className="text-[#FF5722] font-bold text-xs sm:text-sm tracking-widest uppercase mb-3 block">
-            Client Trust &amp; Impact
+        {/* Compact Section Header */}
+        <div className="text-center max-w-xl mx-auto mb-6 sm:mb-8">
+          <span className="text-[#FF5722] font-bold text-xs tracking-wider uppercase mb-1.5 block">
+            Proven Outcomes
           </span>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-[#061C33] tracking-tight mb-4">
-            Testimonials &amp; Success Stories
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-[#061C33] tracking-tight mb-2">
+            Real Impact for GCC Industry Leaders
           </h2>
-          <p className="text-slate-600 font-medium text-base lg:text-lg">
-            Discover why leading enterprise clients across the GCC trust Shiyali.
+          <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">
+            Verified recruitment velocity and long-term retention across Saudi Arabia, UAE, and Oman.
           </p>
-        </motion.div>
+        </div>
 
-        {/* Side-by-Side Grid Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10 items-stretch">
-          
-          {/* Left Column: Client Testimonials */}
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="bg-white rounded-3xl border border-slate-200/90 p-6 sm:p-8 md:p-10 shadow-sm flex flex-col justify-between"
-          >
-            <div>
-              {/* Card Header */}
-              <div className="flex items-center justify-between border-b border-slate-100 pb-4 mb-6">
-                <div className="flex items-center gap-2">
-                  <div className="w-9 h-9 rounded-xl bg-orange-50 border border-orange-100 flex items-center justify-center text-[#FF5722]">
-                    <MessageSquareQuote className="w-5 h-5" />
+        {/* 3 Compact Case Study Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5">
+          {CASE_STORIES.map((story, index) => (
+            <motion.div
+              key={story.title}
+              initial={{ opacity: 0, y: 14 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.35, delay: index * 0.08 }}
+              className="group bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/80 shadow-2xs hover:shadow-md hover:border-orange-300/80 transition-all duration-200 flex flex-col justify-between"
+            >
+              <div>
+                {/* Top Row: Metric & Country Pill */}
+                <div className="flex items-start justify-between gap-2 mb-2.5">
+                  <div className="flex items-baseline gap-2">
+                    <span className="text-2xl sm:text-3xl font-extrabold text-[#FF5722] leading-none">
+                      {story.metric}
+                    </span>
+                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                      {story.metricLabel}
+                    </span>
                   </div>
-                  <h3 className="text-lg font-extrabold text-[#061C33]">Client Reviews</h3>
+                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 border border-slate-200/60 shrink-0">
+                    {story.market}
+                  </span>
                 </div>
-                <span className="text-xs font-semibold text-slate-400">
-                  {testiIdx + 1} of {TESTIMONIALS.length}
-                </span>
-              </div>
 
-              {/* Quote Content */}
-              <div className="relative min-h-[160px] sm:min-h-[180px] flex items-center">
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={testiIdx}
-                    initial={{ opacity: 0, x: testiDir * 30 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -testiDir * 30 }}
-                    transition={{ duration: 0.35 }}
-                    className="w-full"
-                  >
-                    <Quote className="w-8 h-8 text-orange-400/30 mb-3" />
-                    <p className="text-base sm:text-lg italic font-medium text-[#061C33] leading-relaxed mb-6">
-                      &ldquo;{currentTestimonial.quote}&rdquo;
-                    </p>
+                {/* Milestone Title */}
+                <h3 className="text-sm font-bold text-[#061C33] group-hover:text-[#FF5722] transition-colors leading-snug mb-2">
+                  {story.title}
+                </h3>
 
-                    {/* Author Details */}
-                    <div className="flex items-center gap-3.5 pt-4 border-t border-slate-100">
-                      <div className="w-12 h-12 rounded-full bg-[#061C33] text-white flex items-center justify-center font-bold text-sm shrink-0 border border-slate-200">
-                        {getInitials(currentTestimonial.name)}
-                      </div>
-                      <div>
-                        <h4 className="font-bold text-[#061C33] text-sm sm:text-base leading-snug">
-                          {currentTestimonial.name}
-                        </h4>
-                        <p className="text-xs sm:text-sm text-slate-500 font-medium">
-                          {currentTestimonial.title} • <span className="text-[#FF5722]">{currentTestimonial.company}</span>
-                        </p>
-                      </div>
-                    </div>
-                  </motion.div>
-                </AnimatePresence>
-              </div>
-            </div>
-
-            {/* Navigation Bar */}
-            <div className="flex items-center justify-between pt-6 mt-6 border-t border-slate-100">
-              <div className="flex items-center gap-1.5">
-                {TESTIMONIALS.map((_, i) => (
-                  <button
-                    key={i}
-                    onClick={() => {
-                      setTestiDir(i > testiIdx ? 1 : -1);
-                      setTestiIdx(i);
-                    }}
-                    className={cn(
-                      'h-2 rounded-full transition-all duration-300',
-                      i === testiIdx
-                        ? 'bg-[#FF5722] w-6'
-                        : 'bg-slate-200 w-2 hover:bg-slate-300'
-                    )}
-                    aria-label={`Go to testimonial ${i + 1}`}
-                  />
-                ))}
-              </div>
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={prevTesti}
-                  className="w-9 h-9 rounded-full border border-slate-200 bg-white hover:bg-slate-50 text-[#061C33] flex items-center justify-center shadow-xs transition-colors"
-                  aria-label="Previous testimonial"
-                >
-                  <ChevronLeft className="w-4 h-4" />
-                </button>
-                <button
-                  onClick={nextTesti}
-                  className="w-9 h-9 rounded-full border border-slate-200 bg-white hover:bg-slate-50 text-[#061C33] flex items-center justify-center shadow-xs transition-colors"
-                  aria-label="Next testimonial"
-                >
-                  <ChevronRight className="w-4 h-4" />
-                </button>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Right Column: Proven Success Stories */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="bg-white rounded-3xl border border-slate-200/90 p-6 sm:p-8 md:p-10 shadow-sm flex flex-col justify-between"
-          >
-            <div>
-              {/* Card Header */}
-              <div className="flex items-center justify-between border-b border-slate-100 pb-4 mb-6">
-                <div className="flex items-center gap-2">
-                  <div className="w-9 h-9 rounded-xl bg-sky-50 border border-sky-100 flex items-center justify-center text-sky-600">
-                    <Award className="w-5 h-5 text-sky-600" />
-                  </div>
-                  <h3 className="text-lg font-extrabold text-[#061C33]">Proven Outcomes</h3>
+                {/* Stars & Quote */}
+                <div className="flex items-center gap-1 text-amber-400 mb-1.5">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="w-3 h-3 fill-amber-400 text-amber-400" />
+                  ))}
+                  <span className="text-[10px] font-bold text-slate-400 ml-1">5.0</span>
                 </div>
-                <span className="text-xs font-semibold text-slate-400">
-                  {storyIdx + 1} of {SUCCESS_STORIES.length}
-                </span>
+
+                <p className="text-xs text-slate-600 italic leading-relaxed mb-3 line-clamp-3">
+                  &ldquo;{story.quote}&rdquo;
+                </p>
+
+                {/* Outcome Badges */}
+                <div className="flex flex-wrap gap-1 mb-3">
+                  {story.results.map((res, i) => (
+                    <span
+                      key={i}
+                      className="inline-flex items-center gap-1 text-[10px] font-semibold text-slate-600 bg-slate-50 border border-slate-200/70 px-1.5 py-0.5 rounded"
+                    >
+                      <CheckCircle2 className="w-2.5 h-2.5 text-emerald-600 shrink-0" />
+                      <span>{res}</span>
+                    </span>
+                  ))}
+                </div>
               </div>
 
-              {/* Story Content */}
-              <div className="relative min-h-[160px] sm:min-h-[180px]">
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={storyIdx}
-                    initial={{ opacity: 0, x: storyDir * 30 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -storyDir * 30 }}
-                    transition={{ duration: 0.35 }}
-                    className="w-full"
-                  >
-                    {/* Metric Highlight */}
-                    <div className="flex items-baseline gap-3 mb-2">
-                      <span className="text-4xl sm:text-5xl font-extrabold text-[#FF5722]">
-                        <MetricCounter metric={currentStory.metric} />
-                      </span>
-                      <span className="text-sm font-bold text-slate-500 uppercase tracking-wider">
-                        {currentStory.metricLabel}
-                      </span>
-                    </div>
-
-                    <h4 className="text-base sm:text-lg font-extrabold text-[#061C33] mb-3 leading-snug">
-                      {currentStory.title}
-                    </h4>
-
-                    {/* Solution Summary */}
-                    <p className="text-xs sm:text-sm text-slate-600 font-medium mb-4 leading-relaxed line-clamp-2">
-                      {currentStory.solution}
-                    </p>
-
-                    {/* Key Results Checklist */}
-                    <div className="space-y-1.5 pt-3 border-t border-slate-100">
-                      {currentStory.results.slice(0, 3).map((res, i) => (
-                        <div key={i} className="flex items-center gap-2 text-xs sm:text-sm text-slate-700 font-medium">
-                          <CheckCircle2 className="w-4 h-4 text-[#FF5722] shrink-0 stroke-[2.5]" />
-                          <span>{res}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </motion.div>
-                </AnimatePresence>
+              {/* Author Footer */}
+              <div className="flex items-center gap-2.5 pt-3 border-t border-slate-100">
+                <div className="w-8 h-8 rounded-full bg-[#061C33] text-white flex items-center justify-center font-bold text-[10px] shrink-0">
+                  {getInitials(story.author)}
+                </div>
+                <div className="min-w-0">
+                  <h4 className="font-bold text-[#061C33] text-xs leading-tight truncate">
+                    {story.author}
+                  </h4>
+                  <p className="text-[10px] text-slate-500 truncate leading-tight mt-0.5">
+                    {story.role} • <span className="text-[#FF5722] font-semibold">{story.company}</span>
+                  </p>
+                </div>
               </div>
-            </div>
+            </motion.div>
+          ))}
+        </div>
 
-            {/* Navigation Bar */}
-            <div className="flex items-center justify-between pt-6 mt-6 border-t border-slate-100">
-              <div className="flex items-center gap-1.5">
-                {SUCCESS_STORIES.map((_, i) => (
-                  <button
-                    key={i}
-                    onClick={() => {
-                      setStoryDir(i > storyIdx ? 1 : -1);
-                      setStoryIdx(i);
-                    }}
-                    className={cn(
-                      'h-2 rounded-full transition-all duration-300',
-                      i === storyIdx
-                        ? 'bg-[#FF5722] w-6'
-                        : 'bg-slate-200 w-2 hover:bg-slate-300'
-                    )}
-                    aria-label={`Go to story ${i + 1}`}
-                  />
-                ))}
-              </div>
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={prevStory}
-                  className="w-9 h-9 rounded-full border border-slate-200 bg-white hover:bg-slate-50 text-[#061C33] flex items-center justify-center shadow-xs transition-colors"
-                  aria-label="Previous story"
-                >
-                  <ChevronLeft className="w-4 h-4" />
-                </button>
-                <button
-                  onClick={nextStory}
-                  className="w-9 h-9 rounded-full border border-slate-200 bg-white hover:bg-slate-50 text-[#061C33] flex items-center justify-center shadow-xs transition-colors"
-                  aria-label="Next story"
-                >
-                  <ChevronRight className="w-4 h-4" />
-                </button>
-              </div>
-            </div>
-          </motion.div>
+        {/* Compact Bottom Trust Strip */}
+        <div className="mt-6 sm:mt-8 py-2.5 px-4 rounded-xl bg-white/90 border border-slate-200/80 shadow-2xs flex flex-wrap items-center justify-around gap-3 text-center">
+          <div className="flex items-center gap-1.5 text-xs font-bold text-[#061C33]">
+            <Building2 className="w-3.5 h-3.5 text-[#FF5722]" />
+            <span>500+ Enterprise Clients</span>
+          </div>
+          <span className="text-slate-300 hidden sm:inline">•</span>
+          <div className="flex items-center gap-1.5 text-xs font-bold text-[#061C33]">
+            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+            <span>10,000+ Mobilizations</span>
+          </div>
+          <span className="text-slate-300 hidden sm:inline">•</span>
+          <div className="flex items-center gap-1.5 text-xs font-bold text-[#061C33]">
+            <Sparkles className="w-3.5 h-3.5 text-sky-600" />
+            <span>98% Retention Rate</span>
+          </div>
         </div>
       </div>
     </section>

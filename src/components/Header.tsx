@@ -114,7 +114,7 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-12">
           {/* Brand Logo */}
-          <a href="/" className="flex items-center gap-2 shrink-0">
+          <a href={withBasePath('/')} className="flex items-center gap-2 shrink-0">
             <img
               src={withBasePath('/logo.svg')}
               alt="Shiyali HR Services"
@@ -186,7 +186,7 @@ export default function Header() {
                   {/* Mobile Header */}
                   <div className="flex items-center justify-between p-5 border-b border-slate-100">
                     <img
-                      src="/logo.png"
+                      src={withBasePath('/logo.svg')}
                       alt="Shiyali HR Services"
                       className="h-8 w-auto object-contain"
                     />

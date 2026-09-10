@@ -1,234 +1,181 @@
 'use client';
 
-import { useState, useMemo, useRef } from 'react';
-import { motion, useInView, AnimatePresence } from 'framer-motion';
-import { MapPin, ArrowRight, Search, Briefcase, Clock, Sparkles } from 'lucide-react';
+import { useState, useMemo } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { MapPin, ArrowRight, Briefcase, Clock, Sparkles } from 'lucide-react';
 import { FEATURED_JOBS } from '@/lib/constants';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 
-const INDUSTRY_OPTIONS = [
+const CATEGORIES = [
   'All',
   'Oil & Gas',
   'EPC Projects',
   'Construction',
   'Healthcare',
   'Infrastructure',
-  'Manufacturing',
-];
-
-const LOCATION_OPTIONS = [
-  'All',
-  'UAE',
-  'Saudi Arabia',
-  'Qatar',
-  'Oman',
-  'Kuwait',
-  'Bahrain',
-];
-
-const EXPERIENCE_OPTIONS = [
-  'All',
-  '3-5 Years',
-  '5-8 Years',
-  '8-12 Years',
-  '12+ Years',
 ];
 
 export default function FeaturedJobsSection() {
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const isSectionVisible = useInView(sectionRef, { once: true, amount: 0.08 });
-
-  const [industryFilter, setIndustryFilter] = useState('All');
-  const [locationFilter, setLocationFilter] = useState('All');
-  const [experienceFilter, setExperienceFilter] = useState('All');
+  const [selectedCategory, setSelectedCategory] = useState('All');
 
   const filteredJobs = useMemo(() => {
-    return FEATURED_JOBS.filter((job) => {
-      if (industryFilter !== 'All' && job.industry !== industryFilter) return false;
-      if (locationFilter !== 'All' && job.country !== locationFilter) return false;
-      if (experienceFilter !== 'All') {
-        const expNums = job.experience.match(/\d+/g);
-        if (!expNums) return false;
-        const minExp = parseInt(expNums[0]);
-        const maxExp = expNums.length > 1 ? parseInt(expNums[1]) : minExp;
-        const midExp = (minExp + maxExp) / 2;
-        if (experienceFilter === '3-5 Years' && midExp > 6.5) return false;
-        if (experienceFilter === '5-8 Years' && (midExp < 4.5 || midExp > 9)) return false;
-        if (experienceFilter === '8-12 Years' && (midExp < 7 || midExp > 13)) return false;
-        if (experienceFilter === '12+ Years' && minExp < 10) return false;
-      }
-      return true;
-    });
-  }, [industryFilter, locationFilter, experienceFilter]);
+    if (selectedCategory === 'All') return FEATURED_JOBS;
+    return FEATURED_JOBS.filter((job) => job.industry === selectedCategory);
+  }, [selectedCategory]);
 
   return (
-    <section ref={sectionRef} id="jobs" className="bg-white py-14 sm:py-20 relative overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <section id="jobs" className="bg-white py-14 sm:py-20 relative overflow-hidden">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isSectionVisible ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5 }}
-          className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8 pb-4 border-b border-slate-100"
-        >
-          <div>
-            <span className="text-[#FF5722] font-bold text-xs sm:text-sm tracking-widest uppercase mb-1 block">
-              Careers &amp; Openings
-            </span>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#061C33] tracking-tight">
-              Featured Opportunities
-            </h2>
-          </div>
-          <p className="text-slate-500 text-sm max-w-md">
-            Explore current overseas vacancies across the GCC region.
+        <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-10">
+          <span className="text-[#FF5722] font-bold text-xs sm:text-sm tracking-wider uppercase mb-2 block">
+            Careers &amp; Openings
+          </span>
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#061C33] tracking-tight mb-3">
+            Featured Opportunities
+          </h2>
+          <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
+            Active vacancies across premier energy, infrastructure, and healthcare projects in the GCC.
           </p>
-        </motion.div>
+        </div>
 
-        {/* Compact Unified Search & Filter Bar ("In One") */}
-        <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          animate={isSectionVisible ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5, delay: 0.1 }}
-          className="bg-[#F8FAFC] border border-slate-200/90 rounded-2xl p-3 sm:p-4 mb-8 flex flex-wrap md:flex-nowrap items-center gap-3 shadow-sm"
-        >
-          <div className="flex items-center gap-2 text-[#061C33] font-bold text-sm shrink-0 px-1">
-            <Search className="w-4 h-4 text-[#FF5722]" />
-            <span>Search:</span>
-          </div>
+        {/* Compact Horizontal Filter Chips */}
+        <div className="flex items-center justify-start sm:justify-center gap-2 overflow-x-auto pb-2 sm:pb-0 mb-6 sm:mb-8 scrollbar-none">
+          {CATEGORIES.map((cat) => {
+            const count =
+              cat === 'All'
+                ? FEATURED_JOBS.length
+                : FEATURED_JOBS.filter((j) => j.industry === cat).length;
 
-          {/* Industry Filter Dropdown */}
-          <div className="flex-1 min-w-[140px]">
-            <Select value={industryFilter} onValueChange={setIndustryFilter}>
-              <SelectTrigger className="w-full text-sm font-medium border-slate-200 bg-white text-[#061C33] hover:border-orange-300">
-                <SelectValue placeholder="Industry" />
-              </SelectTrigger>
-              <SelectContent>
-                {INDUSTRY_OPTIONS.map((opt) => (
-                  <SelectItem key={opt} value={opt}>
-                    {opt === 'All' ? 'All Industries' : opt}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
+            const isSelected = selectedCategory === cat;
 
-          {/* Location Filter Dropdown */}
-          <div className="flex-1 min-w-[140px]">
-            <Select value={locationFilter} onValueChange={setLocationFilter}>
-              <SelectTrigger className="w-full text-sm font-medium border-slate-200 bg-white text-[#061C33] hover:border-orange-300">
-                <SelectValue placeholder="Location" />
-              </SelectTrigger>
-              <SelectContent>
-                {LOCATION_OPTIONS.map((opt) => (
-                  <SelectItem key={opt} value={opt}>
-                    {opt === 'All' ? 'All Locations' : opt}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
+            return (
+              <button
+                key={cat}
+                onClick={() => setSelectedCategory(cat)}
+                className={cn(
+                  'px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-bold shrink-0 transition-all duration-200 cursor-pointer flex items-center gap-1.5',
+                  isSelected
+                    ? 'bg-[#061C33] text-white shadow-xs'
+                    : 'bg-[#F8FAFC] border border-slate-200/80 text-slate-600 hover:text-[#061C33] hover:border-slate-300'
+                )}
+              >
+                <span>{cat}</span>
+                <span
+                  className={cn(
+                    'text-[10px] px-1.5 py-0.2 rounded-md font-mono',
+                    isSelected ? 'bg-white/20 text-white' : 'bg-slate-200/70 text-slate-600'
+                  )}
+                >
+                  {count}
+                </span>
+              </button>
+            );
+          })}
+        </div>
 
-          {/* Experience Filter Dropdown */}
-          <div className="flex-1 min-w-[140px]">
-            <Select value={experienceFilter} onValueChange={setExperienceFilter}>
-              <SelectTrigger className="w-full text-sm font-medium border-slate-200 bg-white text-[#061C33] hover:border-orange-300">
-                <SelectValue placeholder="Experience" />
-              </SelectTrigger>
-              <SelectContent>
-                {EXPERIENCE_OPTIONS.map((opt) => (
-                  <SelectItem key={opt} value={opt}>
-                    {opt === 'All' ? 'All Experience' : opt}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-
-          {/* Active Job Count Badge */}
-          <div className="ml-auto shrink-0 flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white border border-slate-200 text-xs font-semibold text-slate-700 shadow-2xs">
-            <span className="w-2 h-2 rounded-full bg-[#FF5722] animate-pulse" />
-            <span>{filteredJobs.length * 4} Positions</span>
-          </div>
-        </motion.div>
-
-        {/* Compact Job Cards Grid */}
-        <AnimatePresence mode="popLayout">
-          <motion.div
-            key={`${industryFilter}-${locationFilter}-${experienceFilter}`}
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.3 }}
-            className="grid grid-cols-1 md:grid-cols-2 gap-4"
-          >
+        {/* Modern Compact Job Rows List */}
+        <div className="space-y-3">
+          <AnimatePresence mode="popLayout">
             {filteredJobs.length > 0 ? (
               filteredJobs.map((job) => (
                 <motion.div
                   key={job.role}
-                  whileHover={{ y: -3 }}
+                  layout
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.98 }}
                   transition={{ duration: 0.2 }}
-                  className="group bg-white rounded-xl border border-slate-200/90 p-5 shadow-xs hover:shadow-md hover:border-orange-300/80 transition-all duration-200 flex flex-col justify-between"
+                  className="group flex flex-col sm:flex-row sm:items-center justify-between p-4 sm:p-5 rounded-2xl bg-white border border-slate-200/80 hover:border-orange-300/80 hover:shadow-md transition-all duration-200 gap-3.5 sm:gap-4"
                 >
-                  {/* Top Row: Role & Salary */}
-                  <div>
-                    <div className="flex items-start justify-between gap-3 mb-2">
-                      <h3 className="text-base sm:text-lg font-extrabold text-[#061C33] group-hover:text-[#FF5722] transition-colors duration-200 leading-snug">
-                        {job.role}
-                      </h3>
-                      <span className="text-sm font-extrabold text-[#FF5722] shrink-0 bg-orange-50 px-2.5 py-1 rounded-md border border-orange-100">
-                        {job.salary}
-                      </span>
+                  {/* Left: Role Info & Badges */}
+                  <div className="flex items-start sm:items-center gap-3.5 min-w-0">
+                    <div className="w-10 h-10 rounded-xl bg-[#F8FAFC] border border-slate-100 flex items-center justify-center text-[#061C33] group-hover:bg-[#FF5722] group-hover:text-white group-hover:border-[#FF5722] transition-colors shrink-0 mt-0.5 sm:mt-0 shadow-2xs">
+                      <Briefcase className="w-5 h-5 stroke-[1.8]" />
                     </div>
 
-                    {/* Tags Row */}
-                    <div className="flex flex-wrap items-center gap-2 mb-4">
-                      <Badge className="bg-sky-50 text-sky-700 border border-sky-100 text-xs font-medium px-2.5 py-0.5 rounded-md hover:bg-sky-50">
-                        {job.industry}
-                      </Badge>
-                      <div className="flex items-center gap-1 text-slate-500 text-xs font-medium">
-                        <MapPin className="w-3.5 h-3.5 text-slate-400" />
-                        <span>{job.location}, {job.country}</span>
+                    <div className="min-w-0">
+                      <div className="flex flex-wrap items-center gap-2 mb-1">
+                        <h3 className="text-base font-bold text-[#061C33] group-hover:text-[#FF5722] transition-colors leading-snug truncate">
+                          {job.role}
+                        </h3>
+                        <span className="text-[11px] font-semibold px-2 py-0.5 rounded-md bg-sky-50 text-sky-700 border border-sky-100">
+                          {job.industry}
+                        </span>
                       </div>
-                      <div className="flex items-center gap-1 text-slate-500 text-xs font-medium">
-                        <Clock className="w-3.5 h-3.5 text-slate-400" />
-                        <span>{job.experience}</span>
+
+                      <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-slate-500 font-medium">
+                        <span className="flex items-center gap-1">
+                          <MapPin className="w-3.5 h-3.5 text-slate-400" />
+                          {job.location}, {job.country}
+                        </span>
+                        <span className="text-slate-300">•</span>
+                        <span className="flex items-center gap-1">
+                          <Clock className="w-3.5 h-3.5 text-slate-400" />
+                          {job.experience}
+                        </span>
                       </div>
                     </div>
                   </div>
 
-                  {/* Bottom Row: Apply Action */}
-                  <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
-                    <span className="text-xs font-semibold text-[#FF5722] flex items-center gap-1">
-                      <Sparkles className="w-3.5 h-3.5" />
-                      Actively Hiring
-                    </span>
+                  {/* Right: Salary & Quick Apply Action */}
+                  <div className="flex items-center justify-between sm:justify-end gap-4 shrink-0 pt-3 sm:pt-0 border-t sm:border-t-0 border-slate-100">
+                    <div className="text-left sm:text-right">
+                      <span className="text-[11px] text-slate-400 block sm:hidden">Salary</span>
+                      <span className="text-sm sm:text-base font-bold text-[#061C33] group-hover:text-[#FF5722] transition-colors block">
+                        {job.salary}
+                      </span>
+                    </div>
+
                     <Button
+                      asChild
                       size="sm"
-                      className="bg-[#FF5722] hover:bg-[#E64A19] text-white font-semibold text-xs px-4 py-2 rounded-lg shadow-sm group-hover:shadow transition-all duration-200 h-auto"
+                      className="bg-[#061C33] group-hover:bg-[#FF5722] text-white font-semibold text-xs h-9 px-4 rounded-xl shadow-2xs group-hover:shadow transition-colors duration-200 shrink-0"
                     >
-                      <span>Apply Now</span>
-                      <ArrowRight className="ml-1.5 h-3.5 w-3.5 stroke-[2.5]" />
+                      <a href="#requirement">
+                        <span>Apply Now</span>
+                        <ArrowRight className="ml-1.5 h-3.5 w-3.5 stroke-[2.5]" />
+                      </a>
                     </Button>
                   </div>
                 </motion.div>
               ))
             ) : (
-              <div className="col-span-full text-center py-12 bg-[#F8FAFC] rounded-2xl border border-slate-200">
-                <Search className="w-8 h-8 text-slate-400 mx-auto mb-3" />
-                <p className="text-slate-700 font-bold text-base">No matching positions found</p>
-                <p className="text-slate-500 text-xs mt-1">Try clearing or adjusting your filters</p>
+              <div className="text-center py-10 bg-[#F8FAFC] rounded-2xl border border-slate-200/80">
+                <p className="text-slate-700 font-bold text-sm">No vacancies found in this category</p>
+                <button
+                  onClick={() => setSelectedCategory('All')}
+                  className="text-xs text-[#FF5722] font-semibold mt-1 hover:underline cursor-pointer"
+                >
+                  View all positions
+                </button>
               </div>
             )}
-          </motion.div>
-        </AnimatePresence>
+          </AnimatePresence>
+        </div>
+
+        {/* Compact General Application Bar */}
+        <div className="mt-8 sm:mt-10 p-4 sm:p-5 rounded-2xl bg-[#F8FAFC] border border-slate-200/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left shadow-2xs">
+          <div>
+            <h4 className="text-sm font-bold text-[#061C33]">
+              Don&apos;t see your specialization listed?
+            </h4>
+            <p className="text-xs text-slate-500 mt-0.5">
+              We manage 100+ unadvertised client requirements across the GCC.
+            </p>
+          </div>
+          <Button
+            asChild
+            variant="outline"
+            className="w-full sm:w-auto text-xs font-semibold h-9 px-4 rounded-xl border-slate-300 bg-white hover:bg-slate-50 text-[#061C33] shrink-0"
+          >
+            <a href="#requirement">
+              <span>Submit General Application</span>
+              <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
+            </a>
+          </Button>
+        </div>
       </div>
     </section>
   );
